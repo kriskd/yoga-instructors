@@ -1,0 +1,110 @@
+<?php
+namespace App\Controller;
+
+use App\Controller\AppController;
+
+/**
+ * Instructors Controller
+ *
+ * @property \App\Model\Table\InstructorsTable $Instructors
+ */
+class InstructorsController extends AppController
+{
+
+    /**
+     * Index method
+     *
+     * @return void
+     */
+    public function index()
+    {
+        $this->paginate = [
+            'contain' => ['Users']
+        ];
+        $this->set('instructors', $this->paginate($this->Instructors));
+        $this->set('_serialize', ['instructors']);
+    }
+
+    /**
+     * View method
+     *
+     * @param string|null $id Instructor id.
+     * @return void
+     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     */
+    public function view($id = null)
+    {
+        $instructor = $this->Instructors->get($id, [
+            'contain' => ['Users', 'Participants']
+        ]);
+        $this->set('instructor', $instructor);
+        $this->set('_serialize', ['instructor']);
+    }
+
+    /**
+     * Add method
+     *
+     * @return void Redirects on successful add, renders view otherwise.
+     */
+    public function add()
+    {
+        $instructor = $this->Instructors->newEntity();
+        if ($this->request->is('post')) {
+            $instructor = $this->Instructors->patchEntity($instructor, $this->request->data);
+            if ($this->Instructors->save($instructor)) {
+                $this->Flash->success(__('The instructor has been saved.'));
+                return $this->redirect(['action' => 'index']);
+            } else {
+                $this->Flash->error(__('The instructor could not be saved. Please, try again.'));
+            }
+        }
+        $users = $this->Instructors->Users->find('list', ['limit' => 200]);
+        $this->set(compact('instructor', 'users'));
+        $this->set('_serialize', ['instructor']);
+    }
+
+    /**
+     * Edit method
+     *
+     * @param string|null $id Instructor id.
+     * @return void Redirects on successful edit, renders view otherwise.
+     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     */
+    public function edit($id = null)
+    {
+        $instructor = $this->Instructors->get($id, [
+            'contain' => []
+        ]);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $instructor = $this->Instructors->patchEntity($instructor, $this->request->data);
+            if ($this->Instructors->save($instructor)) {
+                $this->Flash->success(__('The instructor has been saved.'));
+                return $this->redirect(['action' => 'index']);
+            } else {
+                $this->Flash->error(__('The instructor could not be saved. Please, try again.'));
+            }
+        }
+        $users = $this->Instructors->Users->find('list', ['limit' => 200]);
+        $this->set(compact('instructor', 'users'));
+        $this->set('_serialize', ['instructor']);
+    }
+
+    /**
+     * Delete method
+     *
+     * @param string|null $id Instructor id.
+     * @return void Redirects to index.
+     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     */
+    public function delete($id = null)
+    {
+        $this->request->allowMethod(['post', 'delete']);
+        $instructor = $this->Instructors->get($id);
+        if ($this->Instructors->delete($instructor)) {
+            $this->Flash->success(__('The instructor has been deleted.'));
+        } else {
+            $this->Flash->error(__('The instructor could not be deleted. Please, try again.'));
+        }
+        return $this->redirect(['action' => 'index']);
+    }
+}
