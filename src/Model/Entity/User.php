@@ -21,7 +21,6 @@ class User extends Entity
         'password' => true,
         'phone' => true,
         'active' => true,
-        'activation_code' => true,
         'instructors' => true,
         'studios' => true,
     ];
