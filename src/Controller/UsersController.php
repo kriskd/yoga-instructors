@@ -44,12 +44,15 @@ class UsersController extends AppController
      *
      * @return void Redirects on successful add, renders view otherwise.
      */
-    public function add() {
+    public function add($type = null) {
         $user = $this->Users->newEntity();
         if ($this->request->is('post')) {
-            $user = $this->Users->patchEntity($user, $this->request->data, ['validate' => 'newUser']);
-            $user->activation_code = Text::uuid();
-            // TODO Send welcome email to new user 
+            $user = $this->Users->patchEntity($user, $this->request->data, [
+                'associated' => [
+                    'Instructors',
+                    'Studios',
+                ],
+            ]);
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
                 return $this->redirect(['action' => 'index']);
@@ -59,16 +62,9 @@ class UsersController extends AppController
         }
         $this->set(compact('user'));
         $this->set('_serialize', ['user']);
-    }
-
-    public function activate($code = null) {
-        if (empty($code)) {
-            $this->redirect('/');
+        if (in_array($type, ['instructor', 'studio'])) {
+            $this->render('_'.$type);
         }
-        $query = $this->Users->find('all')->where(['activation_code' => $code]);
-        $user = $query->first();
-        $this->set(compact('user'));
-        $this->set('_serialize', ['user']);
     }
 
     /**

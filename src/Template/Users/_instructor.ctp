@@ -9,10 +9,19 @@
     </ul>
 </div>
 <div class="users form large-10 medium-9 columns">
-    <?php echo $this->Html->link('Instructor', [
-        'action' => 'add', 'instructor'
-    ]); ?>
-    <?php echo $this->Html->link('Studio', [
-        'action' => 'add', 'studio'
-    ]); ?>
+    <?= $this->Form->create($user, ['novalidate' => 'novalidate']) ?>
+    <fieldset>
+        <legend><?= __('Add User') ?></legend>
+        <?php
+            echo $this->Form->input('instructors.0.first_name');
+            echo $this->Form->input('instructors.0.last_name');
+            echo $this->Form->input('users.email');
+            echo $this->Form->input('users.password');
+            echo $this->Form->input('users.password_confirm', ['type' => 'password']);
+            echo $this->Form->input('users.phone');
+            echo $this->Form->input('instructors.0.bio');
+        ?>
+    </fieldset>
+    <?= $this->Form->button(__('Submit')) ?>
+    <?= $this->Form->end() ?>
 </div>
