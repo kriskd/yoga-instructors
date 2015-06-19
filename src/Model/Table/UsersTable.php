@@ -48,7 +48,7 @@ class UsersTable extends Table
 
         $validator
             ->add('admin', 'valid', ['rule' => 'boolean'])
-            ->requirePresence('admin', 'create')
+            ->requirePresence('admin', 'update')
             ->notEmpty('admin');
 
         $validator
@@ -65,12 +65,8 @@ class UsersTable extends Table
 
         $validator
             ->add('active', 'valid', ['rule' => 'boolean'])
-            ->requirePresence('active', 'create')
+            ->requirePresence('active', 'update')
             ->notEmpty('active');
-
-        $validator
-            ->add('activation_code', 'valid', ['rule' => 'uuid'])
-            ->allowEmpty('activation_code');
 
         $validator
             ->add('password_confirm', 'custom', [
@@ -86,7 +82,7 @@ class UsersTable extends Table
         return $validator;
     }
 
-    public function validationNewUser(Validator $validator) {
+    /*public function validationNewUser(Validator $validator) {
         $validator
             ->add('id', 'valid', ['rule' => 'numeric'])
             ->allowEmpty('id', 'create');
@@ -102,7 +98,7 @@ class UsersTable extends Table
             ->notEmpty('type');
 
         return $validator;
-    }
+    }*/
 
     /**
      * Returns a rules checker object that will be used for validating
@@ -116,4 +112,5 @@ class UsersTable extends Table
         $rules->add($rules->isUnique(['email']));
         return $rules;
     }
+
 }
