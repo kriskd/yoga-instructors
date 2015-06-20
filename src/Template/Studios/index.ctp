@@ -27,7 +27,7 @@
     <?php foreach ($studios as $studio): ?>
         <tr>
             <td>
-                <?= $studio->has('user') ? $this->Html->link($studio->user->email, ['controller' => 'Users', 'action' => 'view', $studio->user->email]) : '' ?>
+                <?= $studio->has('user') ? $this->Html->link($studio->user->email, ['controller' => 'Users', 'action' => 'view', $studio->user->id]) : '' ?>
             </td>
             <td><?= h($studio->name) ?></td>
             <td><?= h($studio->address) ?></td>

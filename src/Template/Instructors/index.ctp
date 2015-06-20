@@ -12,8 +12,7 @@
     <table cellpadding="0" cellspacing="0">
     <thead>
         <tr>
-            <th><?= $this->Paginator->sort('id') ?></th>
-            <th><?= $this->Paginator->sort('user_id') ?></th>
+            <th><?= $this->Paginator->sort('users.email') ?></th>
             <th><?= $this->Paginator->sort('first_name') ?></th>
             <th><?= $this->Paginator->sort('last_name') ?></th>
             <th class="actions"><?= __('Actions') ?></th>
@@ -22,12 +21,11 @@
     <tbody>
     <?php foreach ($instructors as $instructor): ?>
         <tr>
-            <td><?= $this->Number->format($instructor->id) ?></td>
             <td>
-                <?= $instructor->has('user') ? $this->Html->link($instructor->user->id, ['controller' => 'Users', 'action' => 'view', $instructor->user->id]) : '' ?>
+                <?= $instructor->has('user') ? $this->Html->link($instructor->user->email, ['controller' => 'Users', 'action' => 'view', $instructor->user->id]) : '' ?>
             </td>
-            <td><?= $this->Number->format($instructor->first_name) ?></td>
-            <td><?= $this->Number->format($instructor->last_name) ?></td>
+            <td><?= h($instructor->first_name) ?></td>
+            <td><?= h($instructor->last_name) ?></td>
             <td class="actions">
                 <?= $this->Html->link(__('View'), ['action' => 'view', $instructor->id]) ?>
                 <?= $this->Html->link(__('Edit'), ['action' => 'edit', $instructor->id]) ?>
