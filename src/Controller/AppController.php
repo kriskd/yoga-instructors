@@ -46,7 +46,18 @@ class AppController extends Controller
                 'controller' => 'Pages',
                 'action' => 'display',
                 'home'
-            ]
+            ],
+            'authenticate' => [
+                'Form' => [
+                    'fields' => [
+                        'username' => 'email',
+                        'password' => 'password',
+                    ],
+                    'scope' => [
+                        'Users.active' => true,
+                    ],
+                ],
+            ],
         ]);
     }
 
