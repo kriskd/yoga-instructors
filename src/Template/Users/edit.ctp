@@ -21,10 +21,8 @@
         <?php
             echo $this->Form->input('admin');
             echo $this->Form->input('email');
-            echo $this->Form->input('password');
             echo $this->Form->input('phone');
             echo $this->Form->input('active');
-            echo $this->Form->input('activation_code');
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>
