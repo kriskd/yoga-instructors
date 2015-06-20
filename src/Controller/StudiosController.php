@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Event\Event;
 
 /**
  * Studios Controller
@@ -10,6 +11,11 @@ use App\Controller\AppController;
  */
 class StudiosController extends AppController
 {
+
+    public function beforeFilter(Event $event) {
+        parent::beforeFilter($event);
+        $this->Auth->allow(['add']);
+    }
 
     /**
      * Index method
@@ -53,14 +59,13 @@ class StudiosController extends AppController
             $studio = $this->Studios->patchEntity($studio, $this->request->data);
             if ($this->Studios->save($studio)) {
                 $this->Flash->success(__('The studio has been saved.'));
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect('/');
             } else {
                 $this->Flash->error(__('The studio could not be saved. Please, try again.'));
             }
         }
-        $users = $this->Studios->Users->find('list', ['limit' => 200]);
         $states = $this->Studios->States->find('list', ['limit' => 200]);
-        $this->set(compact('studio', 'users', 'states'));
+        $this->set(compact('studio', 'states'));
         $this->set('_serialize', ['studio']);
     }
 

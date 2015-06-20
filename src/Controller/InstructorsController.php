@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Event\Event;
 
 /**
  * Instructors Controller
@@ -10,6 +11,11 @@ use App\Controller\AppController;
  */
 class InstructorsController extends AppController
 {
+
+    public function beforeFilter(Event $event) {
+        parent::beforeFilter($event);
+        $this->Auth->allow(['add']);
+    }
 
     /**
      * Index method
@@ -53,7 +59,7 @@ class InstructorsController extends AppController
             $instructor = $this->Instructors->patchEntity($instructor, $this->request->data);
             if ($this->Instructors->save($instructor)) {
                 $this->Flash->success(__('The instructor has been saved.'));
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect('/');
             } else {
                 $this->Flash->error(__('The instructor could not be saved. Please, try again.'));
             }
