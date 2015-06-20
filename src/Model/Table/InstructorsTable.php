@@ -47,17 +47,15 @@ class InstructorsTable extends Table
         $validator
             ->add('id', 'valid', ['rule' => 'numeric'])
             ->allowEmpty('id', 'create');
-            
+
         $validator
-            ->add('first_name', 'valid', ['rule' => 'numeric'])
             ->requirePresence('first_name', 'create')
             ->notEmpty('first_name');
-            
+
         $validator
-            ->add('last_name', 'valid', ['rule' => 'numeric'])
             ->requirePresence('last_name', 'create')
             ->notEmpty('last_name');
-            
+
         $validator
             ->allowEmpty('bio');
 
