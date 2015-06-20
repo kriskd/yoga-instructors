@@ -9,16 +9,16 @@
     </ul>
 </div>
 <div class="users form large-10 medium-9 columns">
-    <?= $this->Form->create($user, ['novalidate' => 'novalidate']) ?>
+    <?= $this->Form->create($user) ?>
     <fieldset>
         <legend><?= __('Add User') ?></legend>
         <?php
             echo $this->Form->input('instructors.0.first_name');
             echo $this->Form->input('instructors.0.last_name');
-            echo $this->Form->input('users.email');
-            echo $this->Form->input('users.password');
-            echo $this->Form->input('users.password_confirm', ['type' => 'password']);
-            echo $this->Form->input('users.phone');
+            echo $this->Form->input('email');
+            echo $this->Form->input('password');
+            echo $this->Form->input('password_confirm', ['type' => 'password']);
+            echo $this->Form->input('phone');
             echo $this->Form->input('instructors.0.bio');
         ?>
     </fieldset>

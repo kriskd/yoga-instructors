@@ -49,6 +49,7 @@ class UsersController extends AppController
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->data, [
                 'associated' => [
+                    'Users',
                     'Instructors',
                     'Studios',
                 ],
