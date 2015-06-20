@@ -14,8 +14,7 @@
     <table cellpadding="0" cellspacing="0">
     <thead>
         <tr>
-            <th><?= $this->Paginator->sort('id') ?></th>
-            <th><?= $this->Paginator->sort('user_id') ?></th>
+            <th><?= $this->Paginator->sort('users.email') ?></th>
             <th><?= $this->Paginator->sort('name') ?></th>
             <th><?= $this->Paginator->sort('address') ?></th>
             <th><?= $this->Paginator->sort('city') ?></th>
@@ -27,9 +26,8 @@
     <tbody>
     <?php foreach ($studios as $studio): ?>
         <tr>
-            <td><?= $this->Number->format($studio->id) ?></td>
             <td>
-                <?= $studio->has('user') ? $this->Html->link($studio->user->id, ['controller' => 'Users', 'action' => 'view', $studio->user->id]) : '' ?>
+                <?= $studio->has('user') ? $this->Html->link($studio->user->email, ['controller' => 'Users', 'action' => 'view', $studio->user->email]) : '' ?>
             </td>
             <td><?= h($studio->name) ?></td>
             <td><?= h($studio->address) ?></td>
