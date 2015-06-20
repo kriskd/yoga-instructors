@@ -6,6 +6,7 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Cake\ORM\Behavior\TimestampBehavior;
 
 /**
  * Users Model
@@ -33,6 +34,7 @@ class UsersTable extends Table
         $this->hasMany('Studios', [
             'foreignKey' => 'user_id'
         ]);
+        $this->addBehavior('Timestamp');
     }
 
     /**
