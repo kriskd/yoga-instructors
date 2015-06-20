@@ -67,38 +67,6 @@ class UsersController extends AppController
     }
 
     /**
-     * Add method
-     *
-     * @return void Redirects on successful add, renders view otherwise.
-     */
-    public function add($type = null) {
-        $user = $this->Users->newEntity();
-        if ($this->request->is('post')) {
-            $user = $this->Users->patchEntity($user, $this->request->data, [
-                'associated' => [
-                    'Users',
-                    'Instructors',
-                    'Studios',
-                ],
-            ]);
-            if ($this->Users->save($user)) {
-                $this->Flash->success(__('The user has been saved.'));
-                return $this->redirect(['action' => 'index']);
-            } else {
-                $this->Flash->error(__('The user could not be saved. Please, try again.'));
-            }
-        }
-        $table = TableRegistry::get('States');
-        $query = $table->find('list');
-        $states = $query->toArray();
-        $this->set(compact('user', 'states'));
-        $this->set('_serialize', ['user']);
-        if (in_array($type, ['instructor', 'studio'])) {
-            $this->render('_'.$type);
-        }
-    }
-
-    /**
      * Edit method
      *
      * @param string|null $id User id.
