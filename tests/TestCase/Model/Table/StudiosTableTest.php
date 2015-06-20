@@ -19,8 +19,13 @@ class StudiosTableTest extends TestCase
     public $fixtures = [
         'app.studios',
         'app.users',
-        'app.states',
-        'app.spaces'
+        'app.instructors',
+        'app.participants',
+        'app.sessions',
+        'app.spaces',
+        'app.styles',
+        'app.roles',
+        'app.states'
     ];
 
     /**
