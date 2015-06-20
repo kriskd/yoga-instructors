@@ -33,7 +33,8 @@ class StudiosTable extends Table
             'joinType' => 'INNER'
         ]);
         $this->belongsTo('States', [
-            'foreignKey' => 'state_id'
+            'foreignKey' => 'state_id',
+            'joinType' => 'INNER'
         ]);
         $this->hasMany('Spaces', [
             'foreignKey' => 'studio_id'
@@ -51,22 +52,30 @@ class StudiosTable extends Table
         $validator
             ->add('id', 'valid', ['rule' => 'numeric'])
             ->allowEmpty('id', 'create');
-            
+
         $validator
             ->requirePresence('name', 'create')
             ->notEmpty('name');
-            
+
         $validator
-            ->allowEmpty('address');
-            
+            ->requirePresence('address', 'create')
+            ->notEmpty('address');
+
         $validator
-            ->allowEmpty('city');
-            
+            ->requirePresence('city', 'create')
+            ->notEmpty('city');
+
         $validator
-            ->allowEmpty('postal_code');
-            
+            ->requirePresence('state_id', 'create')
+            ->notEmpty('state_id');
+
         $validator
-            ->allowEmpty('contact');
+            ->requirePresence('postal_code', 'create')
+            ->notEmpty('postal_code');
+
+        $validator
+            ->requirePresence('contact', 'create')
+            ->notEmpty('contact');
 
         return $validator;
     }
