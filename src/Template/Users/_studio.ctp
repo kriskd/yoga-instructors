@@ -9,20 +9,20 @@
     </ul>
 </div>
 <div class="users form large-10 medium-9 columns">
-    <?= $this->Form->create($user) ?>
+    <?= $this->Form->create($user, ['novalidate' => 'novalidate']) ?>
     <fieldset>
         <legend><?= __('Add User') ?></legend>
         <?php
-            echo $this->Form->input('Studio.name');
-            echo $this->Form->input('Studio.address');
-            echo $this->Form->input('Studio.city');
-            echo $this->Form->input('Studio.state_id');
-            echo $this->Form->input('Studio.postal_code');
-            echo $this->Form->input('Studio.contact', ['label' => 'Contact Name']);
-            echo $this->Form->input('User.email');
-            echo $this->Form->input('User.password');
-            echo $this->Form->input('User.password_confirm', ['type' => 'password']);
-            echo $this->Form->input('User.phone');
+            echo $this->Form->input('studios.0.name', ['label' => 'Studio Name']);
+            echo $this->Form->input('studios.0.address');
+            echo $this->Form->input('studios.0.city');
+            echo $this->Form->input('studios.0.state_id', ['options' => $states, 'empty' => 'Choose One']);
+            echo $this->Form->input('studios.0.postal_code');
+            echo $this->Form->input('studios.0.contact', ['label' => 'Contact Name']);
+            echo $this->Form->input('email');
+            echo $this->Form->input('password');
+            echo $this->Form->input('password_confirm', ['type' => 'password']);
+            echo $this->Form->input('phone');
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>
