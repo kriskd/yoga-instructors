@@ -16,7 +16,7 @@
             echo $this->Form->input('studios.0.name', ['label' => 'Studio Name']);
             echo $this->Form->input('studios.0.address');
             echo $this->Form->input('studios.0.city');
-            echo $this->Form->input('studios.0.state_id', ['options' => $states, 'empty' => 'Choose One']);
+            echo $this->Form->input('studios.0.state_id', ['options' => $states, 'empty' => 'Choose One', 'default' => 'WI']);
             echo $this->Form->input('studios.0.postal_code');
             echo $this->Form->input('studios.0.contact', ['label' => 'Contact Name']);
             echo $this->Form->input('email');
