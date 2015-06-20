@@ -52,7 +52,7 @@ class UsersTable extends Table
             ->notEmpty('admin');
 
         $validator
-            ->add('email', 'valid', ['rule' => 'email'])
+            ->add('email', 'valid', ['rule' => 'email', 'message' => 'Enter a valid email'])
             ->requirePresence('email', 'create')
             ->notEmpty('email');
 
