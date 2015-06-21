@@ -53,8 +53,12 @@ class InstructorsController extends AppController
      *
      * @return void Redirects on successful add, renders view otherwise.
      */
-    public function add()
-    {
+    public function add() {
+        if ($this->Auth->user()) {
+            $this->redirect([
+                'action' => 'view',
+            ]);
+        }
         $instructor = $this->Instructors->newEntity();
         if ($this->request->is('post')) {
             $instructor = $this->Instructors->patchEntity($instructor, $this->request->data);

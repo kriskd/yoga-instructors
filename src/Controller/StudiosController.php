@@ -53,8 +53,12 @@ class StudiosController extends AppController
      *
      * @return void Redirects on successful add, renders view otherwise.
      */
-    public function add()
-    {
+    public function add() {
+        if ($this->Auth->user()) {
+            $this->redirect([
+                'action' => 'view',
+            ]);
+        }
         $studio = $this->Studios->newEntity();
         if ($this->request->is('post')) {
             $studio = $this->Studios->patchEntity($studio, $this->request->data);
