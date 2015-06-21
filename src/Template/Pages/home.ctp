@@ -44,21 +44,26 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     </header>
     <div id="content">
         <div class="row">
-            <p>
-                <?php if (isset($authUser)): ?>
-                    <?php $this->Html->link('My Account', [
+            <?php if (isset($authUser)): ?>
+                <p>
+                    <?php echo $this->Html->link('My Account', [
                         'controller' => 'users',
                         'action' => 'view',
                     ]); ?>
+                </p>
+                <p>
                     <?php echo $this->Html->link('Logout', [
                         'controller' => 'users',
                         'action' => 'logout',
                     ]); ?>
-                <?php else: ?>
+                </p>
+            <?php else: ?>
+                <p>
                     <?php echo $this->Html->link('Login', [
                         'controller' => 'users',
                         'action' => 'login',
                     ]); ?>
+                </p>
                 <p>
                     <?php echo $this->Html->link('Instructor Application', [
                         'controller' => 'instructors',
@@ -71,8 +76,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
                         'action' => 'add',
                     ]); ?>
                 </p>
-                <?php endif; ?>
-            </p>
+            <?php endif; ?>
         </div>
     </div>
     <footer>
