@@ -46,11 +46,12 @@ class SessionsController extends AppController
      *
      * @return void Redirects on successful add, renders view otherwise.
      */
-    public function add()
-    {
+    public function add() {
+        $instructor = $this->Sessions->Participants->Instructors->findByUserId($this->Auth->User('id'))->first();
+        if (!$instructor) $this->redirect('/');
         $session = $this->Sessions->newEntity();
         if ($this->request->is('post')) {
-            $this->request->data['participants'][0]['instructor_id'] = $this->Auth->User('id');
+            $this->request->data['participants'][0]['instructor_id'] = $instructor->id;
             $this->request->data['participants'][0]['role_id'] = 1;
             $session = $this->Sessions->patchEntity($session, $this->request->data);
             if ($this->Sessions->save($session, ['associated' => ['Participants']])) {
