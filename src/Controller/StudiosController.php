@@ -40,7 +40,10 @@ class StudiosController extends AppController
      */
     public function view() {
         $id = $this->Auth->user('id');
-        $studio = $this->Studios->findByUserId($id, [
+        $studio = $this->Studios->find('all', [
+            'conditions' => [
+                'user_id' => $id,
+            ],
             'contain' => ['Users', 'States', 'Spaces']
         ])->first();
         if (!$studio) $this->redirect('/');
