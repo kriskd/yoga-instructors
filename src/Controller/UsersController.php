@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Controller\AppController;
 use Cake\ORM\TableRegistry;
 use Cake\Event\Event;
+use Cake\Utility\Text;
 
 /**
  * Users Controller
@@ -15,7 +16,7 @@ class UsersController extends AppController
 
     public function beforeFilter(Event $event) {
         parent::beforeFilter($event);
-        $this->Auth->allow(['add', 'logout']);
+        $this->Auth->allow(['add', 'forgot', 'reset', 'logout']);
     }
 
     public function login() {
@@ -113,5 +114,41 @@ class UsersController extends AppController
             $this->Flash->error(__('The user could not be deleted. Please, try again.'));
         }
         return $this->redirect(['action' => 'index']);
+    }
+
+    public function forgot() {
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $user = $this->Users->findByEmail($this->request->data['email'])->first();
+            $date = date_add(date_create(), date_interval_create_from_date_string('+1 hour'));
+            $formatted = date_format($date, 'Y-m-d H:i:s');
+            $user->password_token = Text::uuid();
+            $user->password_token_expire = $formatted;
+            if ($this->Users->save($user)) {
+                // TODO: Send email
+                $this->Flash->success(__('Please check your email.'));
+                return $this->redirect(['action' => 'reset']);
+            }
+        }
+        $this->Flash->error(__('Problem resetting password.'));
+    }
+
+    public function reset($token = null) {
+        if (empty($token)) $this->redirect(['action' => 'login']);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $user = $this->Users->findByPasswordToken($token)->first();
+            $now = new \DateTime();
+            $expire = new \DateTime($user->password_token_expire);
+            if ($now < $expire) {
+                $user = $this->Users->patchEntity($user, $this->request->data, ['validate' => 'passwordReset']);
+                if ($this->Users->save($user)) {
+                    $this->Flash->success(__('New password saved.'));
+                    return $this->redirect(['action' => 'login']);
+                } else {
+                    $this->Flash->error(__('The user could not be saved. Please, try again.'));
+                }
+            } else {
+
+            }
+        }
     }
 }
