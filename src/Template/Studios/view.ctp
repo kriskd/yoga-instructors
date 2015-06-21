@@ -26,7 +26,7 @@
             <h6 class="subheader"><?= __('City') ?></h6>
             <p><?= h($studio->city) ?></p>
             <h6 class="subheader"><?= __('State') ?></h6>
-            <p><?= $studio->has('state') ? $this->Html->link($studio->state->name, ['controller' => 'States', 'action' => 'view', $studio->state->id]) : '' ?></p>
+            <p><?= h($studio->state->name) ?></p>
             <h6 class="subheader"><?= __('Postal Code') ?></h6>
             <p><?= h($studio->postal_code) ?></p>
             <h6 class="subheader"><?= __('Contact') ?></h6>
