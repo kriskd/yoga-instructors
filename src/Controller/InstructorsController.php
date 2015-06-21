@@ -40,9 +40,10 @@ class InstructorsController extends AppController
      */
     public function view() {
         $id = $this->Auth->user('id');
-        $instructor = $this->Instructors->get($id, [
+        $instructor = $this->Instructors->findByUserId($id, [
             'contain' => ['Users', 'Participants']
-        ]);
+        ])->first();
+        if (!$instructor) $this->redirect('/');
         $this->set('instructor', $instructor);
         $this->set('_serialize', ['instructor']);
     }
