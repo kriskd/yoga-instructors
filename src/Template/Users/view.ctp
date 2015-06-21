@@ -34,9 +34,9 @@
 </div>
 <div class="related row">
     <div class="column large-12">
-    <h4 class="subheader"><?= __('Related Instructors') ?></h4>
     <?php if (!empty($user->instructors)): ?>
-    <table cellpadding="0" cellspacing="0">
+    <h4 class="subheader"><?= __('Related Instructors') ?></h4>
+    <table>
         <tr>
             <th><?= __('Id') ?></th>
             <th><?= __('User Id') ?></th>
@@ -70,9 +70,9 @@
 </div>
 <div class="related row">
     <div class="column large-12">
-    <h4 class="subheader"><?= __('Related Studios') ?></h4>
     <?php if (!empty($user->studios)): ?>
-    <table cellpadding="0" cellspacing="0">
+    <h4 class="subheader"><?= __('Related Studios') ?></h4>
+    <table>
         <tr>
             <th><?= __('Id') ?></th>
             <th><?= __('User Id') ?></th>
