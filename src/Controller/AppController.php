@@ -38,14 +38,18 @@ class AppController extends Controller
     public function initialize() {
         $this->loadComponent('Flash');
         $this->loadComponent('Auth', [
+            //'authorize' => ['Controller'],
+            'loginAction' => [
+                'controller' => 'Users',
+                'action' => 'login',
+            ],
             'loginRedirect' => [
                 'controller' => 'Users',
                 'action' => 'view',
             ],
             'logoutRedirect' => [
-                'controller' => 'Pages',
-                'action' => 'display',
-                'home'
+                'controller' => 'Users',
+                'action' => 'login',
             ],
             'authenticate' => [
                 'Form' => [
@@ -62,6 +66,13 @@ class AppController extends Controller
     }
 
     public function beforeFilter(Event $event) {
+        if ($authUser = $this->Auth->User()) {
+            $this->set('authUser', $authUser);
+        }
         $this->Auth->deny();
+    }
+
+    public function isAuthorized($user) {
+        return true;
     }
 }
