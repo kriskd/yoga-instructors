@@ -69,8 +69,7 @@ class InstructorsController extends AppController
                 $this->Flash->error(__('The instructor could not be saved. Please, try again.'));
             }
         }
-        $users = $this->Instructors->Users->find('list', ['limit' => 200]);
-        $this->set(compact('instructor', 'users'));
+        $this->set(compact('instructor'));
         $this->set('_serialize', ['instructor']);
     }
 
