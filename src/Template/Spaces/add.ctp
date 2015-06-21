@@ -13,7 +13,6 @@
     <fieldset>
         <legend><?= __('Add Space') ?></legend>
         <?php
-            echo $this->Form->input('studio_id', ['options' => $studios, 'empty' => true]);
             echo $this->Form->input('hot_room');
             echo $this->Form->input('max_participants');
             echo $this->Form->input('cost');
