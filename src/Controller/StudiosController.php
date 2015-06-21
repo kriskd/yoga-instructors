@@ -38,8 +38,8 @@ class StudiosController extends AppController
      * @return void
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-    public function view($id = null)
-    {
+    public function view() {
+        $id = $this->Auth->user('id');
         $studio = $this->Studios->get($id, [
             'contain' => ['Users', 'States', 'Spaces']
         ]);
