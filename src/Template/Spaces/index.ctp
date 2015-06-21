@@ -12,20 +12,19 @@
     <table cellpadding="0" cellspacing="0">
     <thead>
         <tr>
-            <th><?= $this->Paginator->sort('id') ?></th>
             <th><?= $this->Paginator->sort('studio_id') ?></th>
             <th><?= $this->Paginator->sort('hot_room') ?></th>
             <th><?= $this->Paginator->sort('max_participants') ?></th>
             <th><?= $this->Paginator->sort('cost') ?></th>
             <th><?= $this->Paginator->sort('donation') ?></th>
             <th><?= $this->Paginator->sort('start') ?></th>
+            <th><?= $this->Paginator->sort('end') ?></th>
             <th class="actions"><?= __('Actions') ?></th>
         </tr>
     </thead>
     <tbody>
     <?php foreach ($spaces as $space): ?>
         <tr>
-            <td><?= $this->Number->format($space->id) ?></td>
             <td>
                 <?= $space->has('studio') ? $this->Html->link($space->studio->name, ['controller' => 'Studios', 'action' => 'view', $space->studio->id]) : '' ?>
             </td>
@@ -34,6 +33,7 @@
             <td><?= $this->Number->format($space->cost) ?></td>
             <td><?= h($space->donation) ?></td>
             <td><?= h($space->start) ?></td>
+            <td><?= h($space->end) ?></td>
             <td class="actions">
                 <?= $this->Html->link(__('View'), ['action' => 'view', $space->id]) ?>
                 <?= $this->Html->link(__('Edit'), ['action' => 'edit', $space->id]) ?>

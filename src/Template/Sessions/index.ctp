@@ -14,7 +14,6 @@
     <table cellpadding="0" cellspacing="0">
     <thead>
         <tr>
-            <th><?= $this->Paginator->sort('id') ?></th>
             <th><?= $this->Paginator->sort('space_id') ?></th>
             <th><?= $this->Paginator->sort('style_id') ?></th>
             <th><?= $this->Paginator->sort('min_students') ?></th>
@@ -27,7 +26,6 @@
     <tbody>
     <?php foreach ($sessions as $session): ?>
         <tr>
-            <td><?= $this->Number->format($session->id) ?></td>
             <td>
                 <?= $session->has('space') ? $this->Html->link($session->space->id, ['controller' => 'Spaces', 'action' => 'view', $session->space->id]) : '' ?>
             </td>

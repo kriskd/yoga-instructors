@@ -12,9 +12,8 @@
     <table cellpadding="0" cellspacing="0">
     <thead>
         <tr>
-            <th><?= $this->Paginator->sort('id') ?></th>
             <th><?= $this->Paginator->sort('session_id') ?></th>
-            <th><?= $this->Paginator->sort('instructor_id') ?></th>
+            <th><?= $this->Paginator->sort('Instructors.last_name') ?></th>
             <th><?= $this->Paginator->sort('role_id') ?></th>
             <th class="actions"><?= __('Actions') ?></th>
         </tr>
@@ -22,12 +21,11 @@
     <tbody>
     <?php foreach ($participants as $participant): ?>
         <tr>
-            <td><?= $this->Number->format($participant->id) ?></td>
             <td>
                 <?= $participant->has('session') ? $this->Html->link($participant->session->id, ['controller' => 'Sessions', 'action' => 'view', $participant->session->id]) : '' ?>
             </td>
             <td>
-                <?= $participant->has('instructor') ? $this->Html->link($participant->instructor->id, ['controller' => 'Instructors', 'action' => 'view', $participant->instructor->id]) : '' ?>
+                <?= $participant->has('instructor') ? $this->Html->link($participant->instructor->last_name, ['controller' => 'Instructors', 'action' => 'view', $participant->instructor->id]) : '' ?>
             </td>
             <td>
                 <?= $participant->has('role') ? $this->Html->link($participant->role->name, ['controller' => 'Roles', 'action' => 'view', $participant->role->id]) : '' ?>
