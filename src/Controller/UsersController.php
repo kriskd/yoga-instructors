@@ -126,28 +126,31 @@ class UsersController extends AppController
             if ($this->Users->save($user)) {
                 // TODO: Send email
                 $this->Flash->success(__('Please check your email.'));
-                return $this->redirect(['action' => 'reset']);
             }
+
+            $this->Flash->error(__('Problem resetting password.'));
         }
-        $this->Flash->error(__('Problem resetting password.'));
     }
 
     public function reset($token = null) {
         if (empty($token)) $this->redirect(['action' => 'login']);
+        $user = $this->Users->findByPasswordToken($token)->first();
+        $now = new \DateTime();
+        $expire = new \DateTime($user->password_token_expire);
+        if ($now > $expire) {
+            $this->Flash->error(__('Please try password reset again.'));
+            return $this->redirect(['action' => 'forgot']);
+        }
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $user = $this->Users->findByPasswordToken($token)->first();
-            $now = new \DateTime();
-            $expire = new \DateTime($user->password_token_expire);
-            if ($now < $expire) {
-                $user = $this->Users->patchEntity($user, $this->request->data, ['validate' => 'passwordReset']);
-                if ($this->Users->save($user)) {
-                    $this->Flash->success(__('New password saved.'));
-                    return $this->redirect(['action' => 'login']);
-                } else {
-                    $this->Flash->error(__('The user could not be saved. Please, try again.'));
-                }
+            $user = $this->Users->patchEntity($user, $this->request->data, ['validate' => 'passwordReset']);
+            if ($this->Users->save($user)) {
+                $user->password_token = null;
+                $user->password_token_expire = null;
+                $this->Users->save($user);
+                $this->Flash->success(__('New password saved.'));
+                return $this->redirect(['action' => 'login']);
             } else {
-
+                $this->Flash->error(__('The user could not be saved. Please, try again.'));
             }
         }
     }
