@@ -19,12 +19,10 @@
             <p><?= $instructor->has('user') ? $this->Html->link($instructor->user->id, ['controller' => 'Users', 'action' => 'view', $instructor->user->id]) : '' ?></p>
         </div>
         <div class="large-2 columns numbers end">
-            <h6 class="subheader"><?= __('Id') ?></h6>
-            <p><?= $this->Number->format($instructor->id) ?></p>
             <h6 class="subheader"><?= __('First Name') ?></h6>
-            <p><?= $this->Number->format($instructor->first_name) ?></p>
+            <p><?= $instructor->first_name ?></p>
             <h6 class="subheader"><?= __('Last Name') ?></h6>
-            <p><?= $this->Number->format($instructor->last_name) ?></p>
+            <p><?= $instructor->last_name ?></p>
         </div>
     </div>
     <div class="row texts">
