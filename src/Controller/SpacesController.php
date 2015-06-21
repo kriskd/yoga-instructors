@@ -46,11 +46,15 @@ class SpacesController extends AppController
      *
      * @return void Redirects on successful add, renders view otherwise.
      */
-    public function add()
-    {
+    public function add() {
         $space = $this->Spaces->newEntity();
+        $studio = $this->Spaces->Studios->findByUserId($this->Auth->user('id'))->first();
+        if (!$studio) {
+            $this->redirect('/');
+        }
         if ($this->request->is('post')) {
             $space = $this->Spaces->patchEntity($space, $this->request->data);
+            $space->studio_id = $studio->id;
             if ($this->Spaces->save($space)) {
                 $this->Flash->success(__('The space has been saved.'));
                 return $this->redirect(['action' => 'index']);
@@ -58,7 +62,9 @@ class SpacesController extends AppController
                 $this->Flash->error(__('The space could not be saved. Please, try again.'));
             }
         }
-        $studios = $this->Spaces->Studios->find('list', ['limit' => 200]);
+        $studios = $this->Spaces->Studios->find('list', [
+            'limit' => 200,
+        ]);
         $this->set(compact('space', 'studios'));
         $this->set('_serialize', ['space']);
     }
