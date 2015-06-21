@@ -50,8 +50,10 @@ class SessionsController extends AppController
     {
         $session = $this->Sessions->newEntity();
         if ($this->request->is('post')) {
+            $this->request->data['participants'][0]['instructor_id'] = $this->Auth->User('id');
+            $this->request->data['participants'][0]['role_id'] = 1;
             $session = $this->Sessions->patchEntity($session, $this->request->data);
-            if ($this->Sessions->save($session)) {
+            if ($this->Sessions->save($session, ['associated' => ['Participants']])) {
                 $this->Flash->success(__('The session has been saved.'));
                 return $this->redirect(['action' => 'index']);
             } else {
