@@ -62,8 +62,6 @@ class ParticipantsController extends AppController
             }
         }
         $sessions = $this->Participants->Sessions->find('list', ['limit' => 200]);
-        $instructors = $this->Participants->Instructors->find('list', ['limit' => 200]);
-        $roles = $this->Participants->Roles->find('list', ['limit' => 200]);
         $this->set(compact('participant', 'sessions', 'instructors', 'roles'));
         $this->set('_serialize', ['participant']);
     }
