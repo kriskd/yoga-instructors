@@ -59,7 +59,7 @@ class UsersTable extends Table
             ->notEmpty('email');
 
         $validator
-            ->requirePresence('password', 'create')
+            ->requirePresence('password', true)
             ->notEmpty('password');
 
         $validator
@@ -70,7 +70,12 @@ class UsersTable extends Table
             ->requirePresence('active', 'update')
             ->notEmpty('active');
 
+        return $this->validationPasswordReset($validator);
+    }
+
+    public function validationPasswordReset(Validator $validator) {
         $validator
+            ->notEmpty('password')
             ->add('password_confirm', 'custom', [
                 'rule' => function ($value, $context) {
                     if (!isset($context['data']['password_confirm'])) {
@@ -83,24 +88,6 @@ class UsersTable extends Table
 
         return $validator;
     }
-
-    /*public function validationNewUser(Validator $validator) {
-        $validator
-            ->add('id', 'valid', ['rule' => 'numeric'])
-            ->allowEmpty('id', 'create');
-
-        $validator
-            ->add('email', 'valid', ['rule' => 'email'])
-            ->requirePresence('email', 'create')
-            ->notEmpty('email');
-
-        $validator
-            ->add('type', 'valid', ['rule' => 'boolean'])
-            ->requirePresence('type', 'create')
-            ->notEmpty('type');
-
-        return $validator;
-    }*/
 
     /**
      * Returns a rules checker object that will be used for validating
