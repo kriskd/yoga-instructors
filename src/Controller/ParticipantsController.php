@@ -46,10 +46,13 @@ class ParticipantsController extends AppController
      *
      * @return void Redirects on successful add, renders view otherwise.
      */
-    public function add()
-    {
+    public function add() {
+        $instructor = $this->Participants->Instructors->findByUserId($this->Auth->User('id'))->first();
+        if (!$instructor) $this->redirect('/');
         $participant = $this->Participants->newEntity();
         if ($this->request->is('post')) {
+            $this->request->data['instructor_id'] = $instructor->id;
+            $this->request->data['role_id'] = 2;
             $participant = $this->Participants->patchEntity($participant, $this->request->data);
             if ($this->Participants->save($participant)) {
                 $this->Flash->success(__('The participant has been saved.'));
