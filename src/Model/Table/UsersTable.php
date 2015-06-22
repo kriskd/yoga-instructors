@@ -73,6 +73,13 @@ class UsersTable extends Table
         return $this->validationPasswordReset($validator);
     }
 
+    public function validationUserEdit(Validator $validator) {
+        $validator = $this->validationDefault($validator);
+        $validator->remove('password');
+
+        return $validator;
+    }
+
     public function validationPasswordReset(Validator $validator) {
         $validator
             ->notEmpty('password')
