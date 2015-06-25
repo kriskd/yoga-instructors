@@ -118,10 +118,8 @@ class UsersController extends AppController
     }
 
     public function forgot() {
-        $user = $this->Users->newEntity();
         if ($this->request->is(['patch', 'post', 'put'])) {
             if ($user = $this->Users->findByEmail($this->request->data['email'])->first()) {
-                $user = $this->Users->patchEntity($user, $this->request->data);
                 $date = date_add(date_create(), date_interval_create_from_date_string('+1 hour'));
                 $formatted = date_format($date, 'Y-m-d H:i:s');
                 $user->password_token = Text::uuid();
@@ -130,11 +128,14 @@ class UsersController extends AppController
                     // TODO: Send email
                     $this->Flash->success(__('Please check your email.'));
                 } else {
-                    debug($user->errors());
+                    $this->Flash->error(__('Problem resetting password.'));
                 }
+            } else {
+                $user = $this->Users->newEntity();
+                $user = $this->Users->patchEntity($user, $this->request->data);
             }
-
-            $this->Flash->error(__('Problem resetting password.'));
+        } else {
+            $user = $this->Users->newEntity();
         }
         $this->set(compact('user'));
         $this->set('_serialize', ['user']);
