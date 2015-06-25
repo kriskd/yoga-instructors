@@ -5,6 +5,7 @@ use App\Controller\AppController;
 use Cake\ORM\TableRegistry;
 use Cake\Event\Event;
 use Cake\Utility\Text;
+use Cake\Validation\Validator;
 
 /**
  * Users Controller
@@ -79,10 +80,10 @@ class UsersController extends AppController
      * @return void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-    public function edit($id = null)
-    {
+    public function edit() {
+        $id = $this->Auth->user('id');
         $user = $this->Users->get($id, [
-            'contain' => []
+            'contain' => ['Instructors', 'Studios']
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $user = $this->Users->patchEntity($user, $this->request->data);
@@ -142,7 +143,7 @@ class UsersController extends AppController
             return $this->redirect(['action' => 'forgot']);
         }
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $user = $this->Users->patchEntity($user, $this->request->data, ['validate' => 'passwordReset']);
+            $user = $this->Users->patchEntity($user, $this->request->data, ['validate' => 'passwordSet']);
             if ($this->Users->save($user)) {
                 $user->password_token = null;
                 $user->password_token_expire = null;
@@ -153,5 +154,7 @@ class UsersController extends AppController
                 $this->Flash->error(__('The user could not be saved. Please, try again.'));
             }
         }
+        $this->set(compact('user'));
+        $this->set('_serialize', ['user']);
     }
 }
