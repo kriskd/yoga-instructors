@@ -118,24 +118,35 @@ class UsersController extends AppController
     }
 
     public function forgot() {
+        $user = $this->Users->newEntity();
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $user = $this->Users->findByEmail($this->request->data['email'])->first();
-            $date = date_add(date_create(), date_interval_create_from_date_string('+1 hour'));
-            $formatted = date_format($date, 'Y-m-d H:i:s');
-            $user->password_token = Text::uuid();
-            $user->password_token_expire = $formatted;
-            if ($this->Users->save($user)) {
-                // TODO: Send email
-                $this->Flash->success(__('Please check your email.'));
+            if ($user = $this->Users->findByEmail($this->request->data['email'])->first()) {
+                $user = $this->Users->patchEntity($user, $this->request->data);
+                $date = date_add(date_create(), date_interval_create_from_date_string('+1 hour'));
+                $formatted = date_format($date, 'Y-m-d H:i:s');
+                $user->password_token = Text::uuid();
+                $user->password_token_expire = $formatted;
+                if ($this->Users->save($user)) {
+                    // TODO: Send email
+                    $this->Flash->success(__('Please check your email.'));
+                } else {
+                    debug($user->errors());
+                }
             }
 
             $this->Flash->error(__('Problem resetting password.'));
         }
+        $this->set(compact('user'));
+        $this->set('_serialize', ['user']);
     }
 
     public function reset($token = null) {
         if (empty($token)) $this->redirect(['action' => 'login']);
         $user = $this->Users->findByPasswordToken($token)->first();
+        if (!$user) {
+            $this->Flash->error(__('Please try password reset again.'));
+            return $this->redirect(['action' => 'forgot']);
+        }
         $now = new \DateTime();
         $expire = new \DateTime($user->password_token_expire);
         if ($now > $expire) {
