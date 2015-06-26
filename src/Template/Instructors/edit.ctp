@@ -15,14 +15,17 @@
     </ul>
 </div>
 <div class="instructors form large-10 medium-9 columns">
-    <?= $this->Form->create($instructor) ?>
+    <?= $this->Form->create($instructor, ['novalidate' => 'novalidate']) ?>
     <fieldset>
         <legend><?= __('Edit Instructor') ?></legend>
         <?php
-            echo $this->Form->input('user_id', ['options' => $users]);
             echo $this->Form->input('first_name');
             echo $this->Form->input('last_name');
             echo $this->Form->input('bio');
+            echo $this->Form->input('user.email');
+            echo $this->Form->input('user.password');
+            echo $this->Form->input('user.password_confirm', ['type' => 'password']);
+            echo $this->Form->input('user.phone');
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

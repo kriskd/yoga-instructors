@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\Event\Event;
+use Cake\Validation\Validator;
 
 /**
  * Instructors Controller
@@ -80,13 +81,20 @@ class InstructorsController extends AppController
      * @return void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-    public function edit($id = null)
-    {
+    public function edit() {
+        $id = $this->Auth->user('id');
         $instructor = $this->Instructors->get($id, [
-            'contain' => []
+            'contain' => ['Users'],
+            'fields' => [
+                'Users.id', 'Users.admin', 'Users.email', 'Users.phone', 'Users.active', 'Instructors.id', 'Instructors.user_id', 'Instructors.first_name', 'Instructors.last_name', 'Instructors.bio'],
         ]);
+        $this->Instructors->Users->validationUserEdit(new Validator());
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $instructor = $this->Instructors->patchEntity($instructor, $this->request->data);
+            $instructor = $this->Instructors->patchEntity($instructor, $this->request->data, ['associated' => [
+                'Users' => [
+                    'validate' => 'userEdit',
+                ]
+            ]]);
             if ($this->Instructors->save($instructor)) {
                 $this->Flash->success(__('The instructor has been saved.'));
                 return $this->redirect(['action' => 'index']);
