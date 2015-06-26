@@ -28,10 +28,10 @@ class UsersTable extends Table
         $this->table('users');
         $this->displayField('id');
         $this->primaryKey('id');
-        $this->hasMany('Instructors', [
+        $this->hasOne('Instructors', [
             'foreignKey' => 'user_id'
         ]);
-        $this->hasMany('Studios', [
+        $this->hasOne('Studios', [
             'foreignKey' => 'user_id'
         ]);
         $this->addBehavior('Timestamp');
@@ -44,6 +44,15 @@ class UsersTable extends Table
      * @return \Cake\Validation\Validator
      */
     public function validationDefault(Validator $validator) {
+        $validator = $this->validationPasswordSet($validator);
+        $validator = $this->validationRequirePassword($validator);
+        return $this->validationRequired($validator);
+    }
+
+    /**
+     * User fields that are always required
+     */
+    public function validationRequired(Validator $validator) {
         $validator
             ->add('id', 'valid', ['rule' => 'numeric'])
             ->allowEmpty('id', 'create');
@@ -59,10 +68,6 @@ class UsersTable extends Table
             ->notEmpty('email');
 
         $validator
-            ->requirePresence('password', true)
-            ->notEmpty('password');
-
-        $validator
             ->allowEmpty('phone');
 
         $validator
@@ -70,19 +75,30 @@ class UsersTable extends Table
             ->requirePresence('active', 'update')
             ->notEmpty('active');
 
-        return $this->validationPasswordReset($validator);
+        return $validator;
     }
 
     public function validationUserEdit(Validator $validator) {
-        $validator = $this->validationDefault($validator);
-        $validator->remove('password');
+        $validator = $this->validationRequired($validator);
+        $validator = $this->validationPasswordSet($validator);
+        $validator->remove('password', 'required');
+        $validator->remove('password_confirm', 'required');
+        $validator->requirePresence('password', false);
+        $validator->requirePresence('password_confirm', false);
+        $validator->allowEmpty('password');
+        $validator->allowEmpty('password_confirm');
+        $validator->requirePresence('admin', false);
+        $validator->requirePresence('active', false);
 
         return $validator;
     }
 
-    public function validationPasswordReset(Validator $validator) {
+    /**
+     * Require password and passowrd_confim
+     * Makre sure they match
+     */
+    public function validationPasswordSet(Validator $validator) {
         $validator
-            ->notEmpty('password')
             ->add('password_confirm', 'custom', [
                 'rule' => function ($value, $context) {
                     if (!isset($context['data']['password_confirm'])) {
@@ -91,7 +107,17 @@ class UsersTable extends Table
                     return $context['data']['password'] === $context['data']['password_confirm'] ? true : false;
                 },
                     'message' => 'Passwords must match'
-                ]);
+                ])->allowEmpty('password_confirm');
+
+        return $validator;
+    }
+
+    public function validationRequirePassword(Validator $validator) {
+        $validator
+            ->notEmpty('password')
+            ->requirePresence('password')
+            ->notEmpty('password_confirm')
+            ->requirePresence('password_confirm');
 
         return $validator;
     }
