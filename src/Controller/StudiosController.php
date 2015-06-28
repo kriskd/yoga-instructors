@@ -86,7 +86,7 @@ class StudiosController extends AppController
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
     public function edit() {
-        $id = $this->Auth->user('id');
+        $id = $this->Auth->user('studio.id');
         $studio = $this->Studios->get($id, [
             'contain' => ['Users'],
             'fields' => [
