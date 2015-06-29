@@ -154,12 +154,35 @@ class UsersControllerTest extends IntegrationTestCase
     }
 
     public function testReset() {
-        $this->post('/users/reset/da786274-c1af-48b4-bbce-2f51b979691d');
         $users = TableRegistry::get('Users');
+        $data = [
+            'password' => 'password1',
+            'password_confirm' => 'password1',
+        ];
+        $this->post('/users/reset/da786274-c1af-48b4-bbce-2f51b979691d', $data);
         $user = $users->get(2);
+        $this->assertTrue((new DefaultPasswordHasher)->check('password1', $user->password));
         $this->assertEmpty($user->password_token);
         $this->assertEmpty($user->password_token_expire);
         $this->assertRedirect(['controller' => 'Users', 'action' => 'login']);
+    }
+
+    public function testResetNoMatch() {
+        $users = TableRegistry::get('Users');
+        $userBefore = $users->get(2);
+        $userBefore->password = 'oldpassword';
+        $users->save($userBefore);
+        $data = [
+            'password' => 'password1',
+            'password_confirm' => 'password2',
+        ];
+        $this->post('/users/reset/da786274-c1af-48b4-bbce-2f51b979691d', $data);
+        $user = $users->get(2);
+        $this->assertFalse((new DefaultPasswordHasher)->check('password1', $user->password));
+        $this->assertTrue((new DefaultPasswordHasher)->check('oldpassword', $userBefore->password));
+        $this->assertNotEmpty($user->password_token);
+        $this->assertNotEmpty($user->password_token_expire);
+        $this->assertNoRedirect();
     }
 
     public function testResetNoToken() {
