@@ -121,7 +121,7 @@ class UsersController extends AppController
 
     public function forgot() {
         if ($this->Auth->User()) {
-            $this->redirect([
+            return $this->redirect([
                 'action' => 'view',
             ]);
         }
