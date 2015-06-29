@@ -60,9 +60,6 @@ class AppController extends Controller
                     'scope' => [
                         'Users.active' => true,
                     ],
-                    'contain' => [
-                        'Instructors', 'Studios',
-                    ],
                 ],
             ],
         ]);
