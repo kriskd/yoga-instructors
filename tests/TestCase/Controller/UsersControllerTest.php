@@ -52,8 +52,7 @@ class UsersControllerTest extends IntegrationTestCase
      *
      * @return void
      */
-    public function testAdd()
-    {
+    public function testAdd() {
         $this->markTestIncomplete('Not implemented yet.');
     }
 
@@ -62,9 +61,20 @@ class UsersControllerTest extends IntegrationTestCase
      *
      * @return void
      */
-    public function testEdit()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
+    public function testEdit() {
+        $user = [
+            'Auth' => [
+                'User' => [
+                    'id' => 1,
+                    'email' => 'AnnaBJames@teleworm.us',
+                ]
+            ]
+        ];
+        $this->session($user);
+        $this->get('/users/edit');
+        $this->assertResponseOk();
+        $viewUser = $this->viewVariable('user');
+        $this->assertEquals($user['Auth']['User']['email'], $viewUser['email']);
     }
 
     /**
