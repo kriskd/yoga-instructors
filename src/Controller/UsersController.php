@@ -85,8 +85,13 @@ class UsersController extends AppController
         $user = $this->Users->get($id, [
             'contain' => ['Instructors', 'Studios']
         ]);
+        $usersTable = TableRegistry::get('Users');
+        $validator = $usersTable->validator('userEdit');
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $user = $this->Users->patchEntity($user, $this->request->data);
+            if (empty(trim($this->request->data['password']))) {
+                unset($this->request->data['password']);
+            }
+            $user = $this->Users->patchEntity($user, $this->request->data, ['validate' => 'userEdit']);
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
                 return $this->redirect(['action' => 'index']);
@@ -118,6 +123,11 @@ class UsersController extends AppController
     }
 
     public function forgot() {
+        if ($this->Auth->User()) {
+            $this->redirect([
+                'action' => 'view',
+            ]);
+        }
         if ($this->request->is(['patch', 'post', 'put'])) {
             if ($user = $this->Users->findByEmail($this->request->data['email'])->first()) {
                 $date = date_add(date_create(), date_interval_create_from_date_string('+1 hour'));
