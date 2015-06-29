@@ -3,7 +3,7 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\Event\Event;
-use Cake\Validation\Validator;
+use Cake\ORM\TableRegistry;
 
 /**
  * Instructors Controller
@@ -88,8 +88,12 @@ class InstructorsController extends AppController
             'fields' => [
                 'Users.id', 'Users.admin', 'Users.email', 'Users.phone', 'Users.active', 'Instructors.id', 'Instructors.user_id', 'Instructors.first_name', 'Instructors.last_name', 'Instructors.bio'],
         ]);
-        $this->Instructors->Users->validationUserEdit(new Validator());
+        $usersTable = TableRegistry::get('Users');
+        $validator = $usersTable->validator('userEdit');
         if ($this->request->is(['patch', 'post', 'put'])) {
+            if (empty(trim($this->request->data['user']['password']))) {
+                unset($this->request->data['user']['password']);
+            }
             $instructor = $this->Instructors->patchEntity($instructor, $this->request->data, ['associated' => [
                 'Users' => [
                     'validate' => 'userEdit',
