@@ -45,7 +45,6 @@ class UsersTable extends Table
      */
     public function validationDefault(Validator $validator) {
         $validator = $this->validationPasswordSet($validator);
-        $validator = $this->validationRequirePassword($validator);
         return $this->validationRequired($validator);
     }
 
@@ -81,12 +80,7 @@ class UsersTable extends Table
     public function validationUserEdit(Validator $validator) {
         $validator = $this->validationRequired($validator);
         $validator = $this->validationPasswordSet($validator);
-        $validator->remove('password', 'required');
-        $validator->remove('password_confirm', 'required');
-        $validator->requirePresence('password', false);
-        $validator->requirePresence('password_confirm', false);
-        $validator->allowEmpty('password');
-        $validator->allowEmpty('password_confirm');
+        $validator = $this->validationOptionalPassword($validator);
         $validator->requirePresence('admin', false);
         $validator->requirePresence('active', false);
 
@@ -94,30 +88,34 @@ class UsersTable extends Table
     }
 
     /**
-     * Require password and passowrd_confim
+     * Require password and passowrd_confirm
      * Makre sure they match
      */
     public function validationPasswordSet(Validator $validator) {
         $validator
             ->add('password_confirm', 'custom', [
                 'rule' => function ($value, $context) {
-                    if (!isset($context['data']['password_confirm'])) {
+                    if (empty(trim($context['data']['password'])) && empty(trim($context['data']['password_confirm']))) {
                         return true;
                     }
                     return $context['data']['password'] === $context['data']['password_confirm'] ? true : false;
                 },
                     'message' => 'Passwords must match'
-                ])->allowEmpty('password_confirm');
+                ])->notEmpty('password');
 
         return $validator;
     }
 
-    public function validationRequirePassword(Validator $validator) {
+    /**
+     * Set password and password_confirm to allow empty in the case of editing
+     * user profile and not changing the password
+     */
+    public function validationOptionalPassword(Validator $validator) {
         $validator
-            ->notEmpty('password')
-            ->requirePresence('password')
-            ->notEmpty('password_confirm')
-            ->requirePresence('password_confirm');
+            ->allowEmpty('password')
+            ->requirePresence('password', false)
+            ->allowEmpty('password_confirm')
+            ->requirePresence('password_confirm', false);
 
         return $validator;
     }
