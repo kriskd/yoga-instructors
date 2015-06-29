@@ -5,7 +5,6 @@ use App\Controller\AppController;
 use Cake\ORM\TableRegistry;
 use Cake\Event\Event;
 use Cake\Utility\Text;
-use Cake\Validation\Validator;
 
 /**
  * Users Controller
