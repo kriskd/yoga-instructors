@@ -85,8 +85,6 @@ class UsersController extends AppController
         $user = $this->Users->get($id, [
             'contain' => ['Instructors', 'Studios']
         ]);
-        $usersTable = TableRegistry::get('Users');
-        $validator = $usersTable->validator('userEdit');
         if ($this->request->is(['patch', 'post', 'put'])) {
             if (empty(trim($this->request->data['password']))) {
                 unset($this->request->data['password']);

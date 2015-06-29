@@ -15,7 +15,13 @@
     </ul>
 </div>
 <div class="users form large-10 medium-9 columns">
-    <?= $this->Form->create($user, ['novalidate' => 'novalidate']) ?>
+    <?= $this->Form->create($user, [
+        'context' => [
+            'validator' => [
+                'Users' => 'userEdit'
+            ],
+        ]
+]) ?>
     <fieldset>
         <legend><?= __('Edit User') ?></legend>
         <?php
