@@ -41,7 +41,7 @@ class UsersFixture extends TestFixture
         $date = date_add(date_create(), date_interval_create_from_date_string('+1 hour'));
         $formatted = date_format($date, 'Y-m-d H:i:s');
         $expiredDate = date_add(date_create(), date_interval_create_from_date_string('-1 hour'));
-        $expiredFormatted = date_format($date, 'Y-m-d H:i:s');
+        $expiredFormatted = date_format($expiredDate, 'Y-m-d H:i:s');
         $record = $this->records[1];
         $record['password_token_expire'] = $formatted;
         $this->records[1] = $record;
@@ -88,7 +88,7 @@ class UsersFixture extends TestFixture
             'password' => 'Loremipsumdolorsitamet',
             'phone' => 'Lorem ipsu',
             'active' => 1,
-            'password_token' => 'da786274-c1af-48b4-bbce-2f51b979691d',
+            'password_token' => '229fa338-64f0-4722-a6cc-bfe3bb6d2c6c',
             'password_token_expire' => '',
             'created' => '2015-06-29 14:00:21',
             'modified' => '2015-06-29 14:00:21'
