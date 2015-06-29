@@ -4,6 +4,7 @@ namespace App\Test\TestCase\Controller;
 use App\Controller\UsersController;
 use Cake\TestSuite\IntegrationTestCase;
 use Cake\ORM\TableRegistry;
+use Cake\Auth\DefaultPasswordHasher;
 
 /**
  * App\Controller\UsersController Test Case
@@ -94,6 +95,23 @@ class UsersControllerTest extends IntegrationTestCase
         $user = $users->get(1);
         $this->assertEquals($user->phone, $data['phone']);
         $this->assertEquals($user->password, 'Loremipsumdolorsitamet');
+    }
+
+    public function testEditPassword() {
+        $this->session($this->user);
+        $data = [
+            'email' => 'AnnaBJames@teleworm.us',
+            'password' => 'password1',
+            'password_confirm' => 'password1',
+            'phone' => '910-287-4299',
+        ];
+        $this->post('/users/edit', $data);
+
+        $this->assertResponseSuccess();
+        $users = TableRegistry::get('Users');
+        $user = $users->get(1);
+        $this->assertEquals($user->phone, $data['phone']);
+        $this->assertTrue((new DefaultPasswordHasher)->check('password1', $user->password));
     }
 
     /**
