@@ -37,6 +37,20 @@ class UsersFixture extends TestFixture
     ];
     // @codingStandardsIgnoreEnd
 
+    public function init() {
+        $date = date_add(date_create(), date_interval_create_from_date_string('+1 hour'));
+        $formatted = date_format($date, 'Y-m-d H:i:s');
+        $expiredDate = date_add(date_create(), date_interval_create_from_date_string('-1 hour'));
+        $expiredFormatted = date_format($date, 'Y-m-d H:i:s');
+        $record = $this->records[1];
+        $record['password_token_expire'] = $formatted;
+        $this->records[1] = $record;
+        $record = $this->records[2];
+        $record['password_token_expire'] = $expiredFormatted;
+        $this->records[2] = $record;
+        parent::init();
+    }
+
     /**
      * Records
      *
@@ -57,25 +71,25 @@ class UsersFixture extends TestFixture
         ],
         [
             'id' => 2,
-            'admin' => 1,
-            'email' => 'Lorem ipsum dolor sit amet',
-            'password' => 'Lorem ipsum dolor sit amet',
+            'admin' => 0,
+            'email' => 'VirginiaSBouchard@teleworm.us',
+            'password' => 'Loremipsumdolorsitamet',
             'phone' => 'Lorem ipsu',
             'active' => 1,
-            'password_token' => '',
-            'password_token_expire' => '2015-06-29 14:00:21',
+            'password_token' => 'da786274-c1af-48b4-bbce-2f51b979691d',
+            'password_token_expire' => '',
             'created' => '2015-06-29 14:00:21',
             'modified' => '2015-06-29 14:00:21'
         ],
         [
             'id' => 3,
-            'admin' => 1,
-            'email' => 'Lorem ipsum dolor sit amet',
-            'password' => 'Lorem ipsum dolor sit amet',
+            'admin' => 0,
+            'email' => 'MaryKOsgood@rhyta.com',
+            'password' => 'Loremipsumdolorsitamet',
             'phone' => 'Lorem ipsu',
             'active' => 1,
-            'password_token' => '',
-            'password_token_expire' => '2015-06-29 14:00:21',
+            'password_token' => 'da786274-c1af-48b4-bbce-2f51b979691d',
+            'password_token_expire' => '',
             'created' => '2015-06-29 14:00:21',
             'modified' => '2015-06-29 14:00:21'
         ],

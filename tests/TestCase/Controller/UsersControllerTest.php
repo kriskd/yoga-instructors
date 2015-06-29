@@ -153,6 +153,25 @@ class UsersControllerTest extends IntegrationTestCase
         $this->assertRedirect(['controller' => 'Users', 'action' => 'view']);
     }
 
+    public function testReset() {
+        $this->post('/users/reset/da786274-c1af-48b4-bbce-2f51b979691d');
+        $users = TableRegistry::get('Users');
+        $user = $users->get(2);
+        $this->assertEmpty($user->password_token);
+        $this->assertEmpty($user->password_token_expire);
+        $this->assertRedirect(['controller' => 'Users', 'action' => 'login']);
+    }
+
+    public function testResetNoToken() {
+        $this->get('/users/reset');
+        $this->assertRedirect(['controller' => 'Users', 'action' => 'login']);
+    }
+
+    public function testResetExpiredToken() {
+        $this->post('/users/reset/229fa338-64f0-4722-a6cc-bfe3bb6d2c6c');
+        $this->assertRedirect(['controller' => 'Users', 'action' => 'forgot']);
+    }
+
     /**
      * Test delete method
      *
