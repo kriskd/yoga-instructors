@@ -114,6 +114,45 @@ class UsersControllerTest extends IntegrationTestCase
         $this->assertTrue((new DefaultPasswordHasher)->check('password1', $user->password));
     }
 
+    public function testEditPasswordFail() {
+        $this->session($this->user);
+        $data = [
+            'email' => 'AnnaBJames@teleworm.us',
+            'password' => 'password1',
+            'password_confirm' => 'password2',
+            'phone' => '910-287-4299',
+        ];
+        $this->post('/users/edit', $data);
+
+        $this->assertResponseSuccess();
+        $users = TableRegistry::get('Users');
+        $user = $users->get(1);
+        $this->assertEquals($user->phone, $data['phone']);
+        $this->assertFalse((new DefaultPasswordHasher)->check('password1', $user->password));
+    }
+
+    public function testForgot() {
+        $data = [
+            'email' => 'AnnaBJames@teleworm.us',
+        ];
+        $this->post('/users/forgot', $data);
+        $users = TableRegistry::get('Users');
+        $user = $users->get(1);
+        $this->assertNotEmpty($user->password_token);
+        $this->assertNotEmpty($user->password_token_expire);
+    }
+
+    public function testForgotLoggedOut() {
+        $this->get('/users/forgot');
+        $this->assertResponseOk();
+    }
+
+    public function testForgotLoggedIn() {
+        $this->session($this->user);
+        $this->get('/users/forgot');
+        $this->assertRedirect(['controller' => 'Users', 'action' => 'view']);
+    }
+
     /**
      * Test delete method
      *
