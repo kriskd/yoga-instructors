@@ -3,6 +3,7 @@ namespace App\Test\TestCase\Controller;
 
 use App\Controller\StudiosController;
 use Cake\TestSuite\IntegrationTestCase;
+use Cake\ORM\TableRegistry;
 
 /**
  * App\Controller\StudiosController Test Case
@@ -52,9 +53,35 @@ class StudiosControllerTest extends IntegrationTestCase
      *
      * @return void
      */
-    public function testAdd()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
+    public function testAdd() {
+        $data = [
+            'name' => 'Rex Audio Video Appliance',
+            'address' => '2263 Lakewood Drive',
+            'city' => 'North Bergen',
+            'state_id' => 'NJ',
+            'postal_code' => '07047',
+            'contact' => 'Taryn Behm',
+            'user' => [
+                'email' => 'TarynJBehm@jourrapide.com',
+                'password' => 'password',
+                'password_confirm' => 'password',
+                'phone' => '201-861-1525',
+            ]
+        ];
+        $this->post('/studios/add', $data);
+
+        $this->assertResponseSuccess();
+        $studios = TableRegistry::get('Studios');
+        $studio = $studios->find('all', [
+            'contain' => ['Users'],
+            'conditions' => [
+                'users.email' => 'TarynJBehm@jourrapide.com',
+                //'users.email' => 'VirginiaSBouchard@teleworm.us',
+            ]
+        ])->first();
+        //var_dump($studio); exit;
+        $this->assertEquals('North Bergen', $studio->city);
+        $this->assertEquals('TarynJBehm@jourrapide.com', $studio->user->email);
     }
 
     /**
