@@ -49,7 +49,47 @@ class StudiosFixture extends TestFixture
     public $records = [
         [
             'id' => 1,
-            'user_id' => 1,
+            'user_id' => 2,
+            'name' => 'Lorem ipsum dolor sit amet',
+            'address' => 'Lorem ipsum dolor sit amet',
+            'city' => 'Lorem ipsum dolor sit amet',
+            'state_id' => '',
+            'postal_code' => 'Lorem ip',
+            'contact' => 'Lorem ipsum dolor sit amet'
+        ],
+        [
+            'id' => 2,
+            'user_id' => 4,
+            'name' => 'Lorem ipsum dolor sit amet',
+            'address' => 'Lorem ipsum dolor sit amet',
+            'city' => 'Lorem ipsum dolor sit amet',
+            'state_id' => '',
+            'postal_code' => 'Lorem ip',
+            'contact' => 'Lorem ipsum dolor sit amet'
+        ],
+        [
+            'id' => 3,
+            'user_id' => 6,
+            'name' => 'Lorem ipsum dolor sit amet',
+            'address' => 'Lorem ipsum dolor sit amet',
+            'city' => 'Lorem ipsum dolor sit amet',
+            'state_id' => '',
+            'postal_code' => 'Lorem ip',
+            'contact' => 'Lorem ipsum dolor sit amet'
+        ],
+        [
+            'id' => 4,
+            'user_id' => 8,
+            'name' => 'Lorem ipsum dolor sit amet',
+            'address' => 'Lorem ipsum dolor sit amet',
+            'city' => 'Lorem ipsum dolor sit amet',
+            'state_id' => '',
+            'postal_code' => 'Lorem ip',
+            'contact' => 'Lorem ipsum dolor sit amet'
+        ],
+        [
+            'id' => 5,
+            'user_id' => 10,
             'name' => 'Lorem ipsum dolor sit amet',
             'address' => 'Lorem ipsum dolor sit amet',
             'city' => 'Lorem ipsum dolor sit amet',
