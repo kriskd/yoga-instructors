@@ -36,8 +36,8 @@ class StatesFixture extends TestFixture
      */
     public $records = [
         [
-            'id' => 'c29a4232-ff01-41ff-8e55-a4f9d99e91e7',
-            'name' => 'Lorem ipsum dolor sit amet'
+            'id' => 'NJ',
+            'name' => 'New Jersey'
         ],
     ];
 }
