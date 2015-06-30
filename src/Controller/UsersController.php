@@ -126,7 +126,7 @@ class UsersController extends AppController
             ]);
         }
         if ($this->request->is(['patch', 'post', 'put'])) {
-            if ($user = $this->Users->findByEmail($this->request->data['email'])->first()) {
+            if ($user = $this->Users->findByEmailAndActive($this->request->data['email'], 1)->first()) {
                 $date = date_add(date_create(), date_interval_create_from_date_string('+1 hour'));
                 $formatted = date_format($date, 'Y-m-d H:i:s');
                 $user->password_token = Text::uuid();
@@ -140,6 +140,7 @@ class UsersController extends AppController
             } else {
                 $user = $this->Users->newEntity();
                 $user = $this->Users->patchEntity($user, $this->request->data);
+                $this->Flash->error(__('Password can not be reset, contact admin.'));
             }
         } else {
             $user = $this->Users->newEntity();
