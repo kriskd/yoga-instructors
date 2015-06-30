@@ -5,11 +5,11 @@
         <?php
             echo $this->Form->input('first_name');
             echo $this->Form->input('last_name');
+            echo $this->Form->input('bio');
             echo $this->Form->input('user.email');
             echo $this->Form->input('user.password');
             echo $this->Form->input('user.password_confirm', ['type' => 'password']);
             echo $this->Form->input('user.phone');
-            echo $this->Form->input('bio');
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>
