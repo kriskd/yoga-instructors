@@ -79,40 +79,6 @@ class StudiosController extends AppController
     }
 
     /**
-     * Edit method
-     *
-     * @param string|null $id Studio id.
-     * @return void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
-     */
-    public function edit() {
-        $id = $this->Auth->user('studio.id');
-        $studio = $this->Studios->get($id, [
-            'contain' => ['Users'],
-            'fields' => [
-                'Users.id', 'Users.admin', 'Users.email', 'Users.phone', 'Users.active', 'Studios.id', 'Studios.user_id', 'Studios.name', 'Studios.address', 'Studios.city', 'Studios.state_id', 'Studios.postal_code', 'Studios.contact'],
-        ]);
-        $this->Studios->Users->validationUserEdit(new Validator());
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $studio = $this->Studios->patchEntity($studio, $this->request->data, ['associated' => [
-                'Users' => [
-                    'validate' => 'userEdit',
-                ]
-            ]]);
-            if ($this->Studios->save($studio)) {
-                $this->Flash->success(__('The studio has been saved.'));
-                return $this->redirect(['action' => 'index']);
-            } else {
-                $this->Flash->error(__('The studio could not be saved. Please, try again.'));
-            }
-        }
-        $users = $this->Studios->Users->find('list', ['limit' => 200]);
-        $states = $this->Studios->States->find('list', ['limit' => 200]);
-        $this->set(compact('studio', 'users', 'states'));
-        $this->set('_serialize', ['studio']);
-    }
-
-    /**
      * Delete method
      *
      * @param string|null $id Studio id.

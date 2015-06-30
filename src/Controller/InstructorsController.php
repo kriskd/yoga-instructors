@@ -75,43 +75,6 @@ class InstructorsController extends AppController
     }
 
     /**
-     * Edit method
-     *
-     * @param string|null $id Instructor id.
-     * @return void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
-     */
-    public function edit() {
-        $id = $this->Auth->user('instructor.id');
-        $instructor = $this->Instructors->get($id, [
-            'contain' => ['Users'],
-            'fields' => [
-                'Users.id', 'Users.admin', 'Users.email', 'Users.phone', 'Users.active', 'Instructors.id', 'Instructors.user_id', 'Instructors.first_name', 'Instructors.last_name', 'Instructors.bio'],
-        ]);
-        $usersTable = TableRegistry::get('Users');
-        $validator = $usersTable->validator('userEdit');
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            if (empty(trim($this->request->data['user']['password']))) {
-                unset($this->request->data['user']['password']);
-            }
-            $instructor = $this->Instructors->patchEntity($instructor, $this->request->data, ['associated' => [
-                'Users' => [
-                    'validate' => 'userEdit',
-                ]
-            ]]);
-            if ($this->Instructors->save($instructor)) {
-                $this->Flash->success(__('The instructor has been saved.'));
-                return $this->redirect(['action' => 'index']);
-            } else {
-                $this->Flash->error(__('The instructor could not be saved. Please, try again.'));
-            }
-        }
-        $users = $this->Instructors->Users->find('list', ['limit' => 200]);
-        $this->set(compact('instructor', 'users'));
-        $this->set('_serialize', ['instructor']);
-    }
-
-    /**
      * Delete method
      *
      * @param string|null $id Instructor id.
