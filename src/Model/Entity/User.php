@@ -20,6 +20,7 @@ class User extends Entity
         'email' => true,
         'password' => true,
         'phone' => true,
+        'type' => true,
         'active' => true,
         'password_token' => true,
         'password_token_expire' => true,

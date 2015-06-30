@@ -70,6 +70,10 @@ class UsersTable extends Table
             ->allowEmpty('phone');
 
         $validator
+            ->add('type', 'inList', ['rule' => ['inList', ['instructor', 'studio']], 'message' => 'Must be instructor or studio'])
+            ->notEmpty('type');
+
+        $validator
             ->add('active', 'valid', ['rule' => 'boolean'])
             ->requirePresence('active', 'update')
             ->notEmpty('active');
