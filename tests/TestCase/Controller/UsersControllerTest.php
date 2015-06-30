@@ -153,6 +153,17 @@ class UsersControllerTest extends IntegrationTestCase
         $this->assertRedirect(['controller' => 'Users', 'action' => 'view']);
     }
 
+    public function testForgotInactive() {
+        $data = [
+            'email' => 'GracielaCMedina@dayrep.com',
+        ];
+        $this->post('/users/forgot', $data);
+        $users = TableRegistry::get('Users');
+        $user = $users->get(4);
+        $this->assertEmpty($user->password_token);
+        $this->assertEmpty($user->password_token_expire);
+    }
+
     public function testReset() {
         $users = TableRegistry::get('Users');
         $data = [

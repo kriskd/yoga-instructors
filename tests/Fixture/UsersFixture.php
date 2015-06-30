@@ -99,14 +99,14 @@ class UsersFixture extends TestFixture
         ],
         [
             'id' => 4,
-            'admin' => 1,
-            'email' => 'Lorem ipsum dolor sit amet',
-            'password' => 'Lorem ipsum dolor sit amet',
+            'admin' => 0,
+            'email' => 'GracielaCMedina@dayrep.com',
+            'password' => 'Loremipsumdolorsitamet',
             'phone' => 'Lorem ipsu',
             'type' => 'studio',
-            'active' => 1,
+            'active' => 0,
             'password_token' => '',
-            'password_token_expire' => '2015-06-29 14:00:21',
+            'password_token_expire' => '',
             'created' => '2015-06-29 14:00:21',
             'modified' => '2015-06-29 14:00:21'
         ],
@@ -119,7 +119,7 @@ class UsersFixture extends TestFixture
             'type' => 'instructor',
             'active' => 1,
             'password_token' => '',
-            'password_token_expire' => '2015-06-29 14:00:21',
+            'password_token_expire' => '',
             'created' => '2015-06-29 14:00:21',
             'modified' => '2015-06-29 14:00:21'
         ],
@@ -132,7 +132,7 @@ class UsersFixture extends TestFixture
             'type' => 'studio',
             'active' => 1,
             'password_token' => '',
-            'password_token_expire' => '2015-06-29 14:00:21',
+            'password_token_expire' => '',
             'created' => '2015-06-29 14:00:21',
             'modified' => '2015-06-29 14:00:21'
         ],
@@ -145,7 +145,7 @@ class UsersFixture extends TestFixture
             'type' => 'instructor',
             'active' => 1,
             'password_token' => '',
-            'password_token_expire' => '2015-06-29 14:00:21',
+            'password_token_expire' => '',
             'created' => '2015-06-29 14:00:21',
             'modified' => '2015-06-29 14:00:21'
         ],
@@ -158,7 +158,7 @@ class UsersFixture extends TestFixture
             'type' => 'studio',
             'active' => 1,
             'password_token' => '',
-            'password_token_expire' => '2015-06-29 14:00:21',
+            'password_token_expire' => '',
             'created' => '2015-06-29 14:00:21',
             'modified' => '2015-06-29 14:00:21'
         ],
@@ -171,7 +171,7 @@ class UsersFixture extends TestFixture
             'type' => 'instructor',
             'active' => 1,
             'password_token' => '',
-            'password_token_expire' => '2015-06-29 14:00:21',
+            'password_token_expire' => '',
             'created' => '2015-06-29 14:00:21',
             'modified' => '2015-06-29 14:00:21'
         ],
@@ -184,7 +184,7 @@ class UsersFixture extends TestFixture
             'type' => 'studio',
             'active' => 1,
             'password_token' => '',
-            'password_token_expire' => '2015-06-29 14:00:21',
+            'password_token_expire' => '',
             'created' => '2015-06-29 14:00:21',
             'modified' => '2015-06-29 14:00:21'
         ],
