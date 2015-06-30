@@ -38,7 +38,7 @@
             <td><?= h($studio->postal_code) ?></td>
             <td class="actions">
                 <?= $this->Html->link(__('View'), ['action' => 'view', $studio->id]) ?>
-                <?= $this->Html->link(__('Edit'), ['action' => 'edit', $studio->id]) ?>
+                <?= $this->Html->link(__('Edit'), ['controller' => 'users', 'action' => 'edit', $studio->user->id]) ?>
                 <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $studio->id], ['confirm' => __('Are you sure you want to delete # {0}?', $studio->id)]) ?>
             </td>
         </tr>

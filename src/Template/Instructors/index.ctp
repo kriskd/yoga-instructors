@@ -28,7 +28,7 @@
             <td><?= h($instructor->last_name) ?></td>
             <td class="actions">
                 <?= $this->Html->link(__('View'), ['action' => 'view', $instructor->id]) ?>
-                <?= $this->Html->link(__('Edit'), ['action' => 'edit', $instructor->id]) ?>
+                <?= $this->Html->link(__('Edit'), ['controller' => 'users', 'action' => 'edit', $instructor->user->id]) ?>
                 <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $instructor->id], ['confirm' => __('Are you sure you want to delete # {0}?', $instructor->id)]) ?>
             </td>
         </tr>
