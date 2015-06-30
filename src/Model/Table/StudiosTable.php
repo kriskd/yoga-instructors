@@ -41,6 +41,13 @@ class StudiosTable extends Table
         ]);
     }
 
+    public function beforeSave($event, $entity, $options) {
+        if ($entity->isNew()) {
+            $entity->user->type = 'studio';
+        }
+        return true;
+    }
+
     /**
      * Default validation rules.
      *

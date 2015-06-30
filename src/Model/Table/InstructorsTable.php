@@ -36,6 +36,13 @@ class InstructorsTable extends Table
         ]);
     }
 
+    public function beforeSave($event, $entity, $options) {
+        if ($entity->isNew()) {
+            $entity->user->type = 'instructor';
+        }
+        return true;
+    }
+
     /**
      * Default validation rules.
      *
