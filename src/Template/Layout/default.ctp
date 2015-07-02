@@ -27,6 +27,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <?= $this->Html->meta('icon') ?>
 
     <?= $this->Html->css('build/styles.min') ?>
+    <?= $this->Html->script('build/scripts.min') ?>
 
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
