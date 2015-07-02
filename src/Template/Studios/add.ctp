@@ -1,5 +1,9 @@
 <div class="studios form large-10 medium-9 columns">
     <?= $this->Form->create($studio) ?>
+    <?php $this->Form->templates([
+        'input' => '<input class="form-control" type={{type}} name={{name}} {{attrs}} >',
+        'select' => '<select class="form-control" name={{name}} {{attrs}}>{{content}}</select>',
+    ]); ?>
     <fieldset>
         <legend><?= __('Add Studio') ?></legend>
         <?php
@@ -15,6 +19,6 @@
             echo $this->Form->input('user.phone');
         ?>
     </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
+    <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-default']) ?>
     <?= $this->Form->end() ?>
 </div>

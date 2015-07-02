@@ -10,6 +10,11 @@
 </div>
 <div class="spaces form large-10 medium-9 columns">
     <?= $this->Form->create($space) ?>
+    <?php $this->Form->templates([
+        'input' => '<input class="form-control" type={{type}} name={{name}} {{attrs}} >',
+        'textarea' => '<textarea class="form-control {{attrs}}>{{value}}</textarea>',
+        'select' => '<select class="form-control" name={{name}} {{attrs}}>{{content}}</select>',
+    ]); ?>
     <fieldset>
         <legend><?= __('Add Space') ?></legend>
         <?php
