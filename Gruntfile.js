@@ -12,6 +12,7 @@ module.exports = function(grunt) {
 				src: [
                     'bower_components/jquery/dist/jquery.js',
                     'bower_components/bootstrap/js/collapse.js',
+                    'bower_components/bootstrap/js/dropdown.js',
 					'webroot/js/src/scripts.js',
 				],
 				dest: 'webroot/js/build/scripts.js'
