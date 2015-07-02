@@ -35,48 +35,48 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         <?= $cakeDescription ?>
     </title>
     <?= $this->Html->meta('icon') ?>
-    <?= $this->Html->css('base.css') ?>
-    <?= $this->Html->css('cake.css') ?>
+    <?= $this->Html->css('build/styles.min') ?>
+    <?= $this->Html->script('build/scripts.min') ?>
 </head>
 <body>
-    <header>
-        <div class="header-title">Yoga</div>
-    </header>
-    <div id="content">
-        <div class="row">
-            <?php if (isset($authUser)): ?>
-                <p>
-                    <?php echo $this->Html->link('My Account', [
-                        'controller' => 'users',
-                        'action' => 'view',
-                    ]); ?>
-                </p>
-                <p>
-                    <?php echo $this->Html->link('Logout', [
-                        'controller' => 'users',
-                        'action' => 'logout',
-                    ]); ?>
-                </p>
-            <?php else: ?>
-                <p>
-                    <?php echo $this->Html->link('Login', [
-                        'controller' => 'users',
-                        'action' => 'login',
-                    ]); ?>
-                </p>
-                <p>
-                    <?php echo $this->Html->link('Instructor Application', [
-                        'controller' => 'instructors',
-                        'action' => 'add',
-                    ]); ?>
-                </p>
-                <p>
-                    <?php echo $this->Html->link('Studio Application', [
-                        'controller' => 'studios',
-                        'action' => 'add',
-                    ]); ?>
-                </p>
-            <?php endif; ?>
+    <?php echo $this->Element('header'); ?>
+    <div class="jumbotron">
+        <div class="container">
+            <div class="row">
+                <?php if (isset($authUser)): ?>
+                    <p>
+                        <?php echo $this->Html->link('My Account', [
+                            'controller' => 'users',
+                            'action' => 'view',
+                        ]); ?>
+                    </p>
+                    <p>
+                        <?php echo $this->Html->link('Logout', [
+                            'controller' => 'users',
+                            'action' => 'logout',
+                        ]); ?>
+                    </p>
+                <?php else: ?>
+                    <p>
+                        <?php echo $this->Html->link('Login', [
+                            'controller' => 'users',
+                            'action' => 'login',
+                        ]); ?>
+                    </p>
+                    <p>
+                        <?php echo $this->Html->link('Instructor Application', [
+                            'controller' => 'instructors',
+                            'action' => 'add',
+                        ]); ?>
+                    </p>
+                    <p>
+                        <?php echo $this->Html->link('Studio Application', [
+                            'controller' => 'studios',
+                            'action' => 'add',
+                        ]); ?>
+                    </p>
+                <?php endif; ?>
+            </div>
         </div>
     </div>
     <footer>
