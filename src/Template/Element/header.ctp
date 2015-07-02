@@ -15,7 +15,32 @@
             </div>
             <div id="navbar" class="collapse navbar-collapse">
                 <?php if (isset($authUser)): ?>
-                    Welcome, <?php echo $name; ?>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <?= $this->Html->link('Welcome, '.$name. ' <span class="caret"></span>', '#', [
+                                'class' => 'dropdown-toggle',
+                                'data-toggle' => 'dropdown',
+                                'role' => 'button',
+                                'aria-haspopup' => 'true',
+                                'aria-expanded' => 'false',
+                                'escape' => false,
+                            ]); ?>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <?= $this->Html->link('Edit Profile', [
+                                        'controller' => 'Users',
+                                        'action' => 'edit',
+                                    ]); ?>
+                                </li>
+                                <li>
+                                    <?= $this->Html->link('Logout', [
+                                        'controller' => 'Users',
+                                        'action' => 'logout',
+                                    ]); ?>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
                 <?php else: ?>
                     <?= $this->Form->create(null, [
                         'class' => 'navbar-form navbar-right',
