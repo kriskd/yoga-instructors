@@ -81,4 +81,16 @@ class InstructorsTable extends Table
         $rules->add($rules->existsIn(['user_id'], 'Users'));
         return $rules;
     }
+
+    public function getName($userid) {
+        $instructor = $this->find('all', [
+            'contain' => ['Users'],
+            'fields' => ['first_name'],
+            'conditions' => [
+                'Users.id' => $userid,
+            ],
+        ])->first();
+
+        return $instructor->first_name;
+    }
 }

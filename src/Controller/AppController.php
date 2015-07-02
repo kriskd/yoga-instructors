@@ -16,6 +16,8 @@ namespace App\Controller;
 
 use Cake\Controller\Controller;
 use Cake\Event\Event;
+use Cake\Utility\Inflector;
+use Cake\ORM\TableRegistry;
 
 /**
  * Application Controller
@@ -68,6 +70,10 @@ class AppController extends Controller
     public function beforeFilter(Event $event) {
         if ($authUser = $this->Auth->User()) {
             $this->set('authUser', $authUser);
+            $type = ucfirst(Inflector::pluralize($authUser['type']));
+            $table = TableRegistry::get($type);
+            $name = $table->getName($authUser['id']);
+            $this->set('name', $name);
         }
         $this->Auth->deny();
     }

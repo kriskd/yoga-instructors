@@ -100,4 +100,16 @@ class StudiosTable extends Table
         $rules->add($rules->existsIn(['state_id'], 'States'));
         return $rules;
     }
+ 
+    public function getName($userid) {
+        $instructor = $this->find('all', [
+            'contain' => ['Users'],
+            'fields' => ['name'],
+            'conditions' => [
+                'Users.id' => $userid,
+            ],
+        ])->first();
+
+        return $instructor->name;
+    }
 }
