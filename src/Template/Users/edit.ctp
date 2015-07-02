@@ -21,12 +21,17 @@
                 'Users' => 'userEdit'
             ],
         ]
-]) ?>
+    ]) ?>
+    <?php $this->Form->templates([
+        'input' => '<input class="form-control" type={{type}} name={{name}} {{attrs}} >',
+        'select' => '<select class="form-control" name={{name}} {{attrs}}>{{content}}</select>',
+        'textarea' => '<textarea class="form-control {{attrs}}>{{value}}</textarea>',
+    ]); ?>
     <fieldset>
         <legend><?= __('Edit') ?> <?php echo ucfirst($user->type); ?></legend>
         <?php echo $this->Element('Form/'.$user->type); ?>
         <?php echo $this->Element('Form/user'); ?>
     </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
+    <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-default']) ?>
     <?= $this->Form->end() ?>
 </div>
