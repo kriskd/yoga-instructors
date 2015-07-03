@@ -71,6 +71,19 @@ class SpacesTable extends Table
             ->notEmpty('start');
 
         $validator
+            ->add('end', 'custom', [
+                'rule' => function ($value, $context) {
+                    $start = implode(' ', $context['data']['start']);
+                    $start = \DateTime::createFromFormat('m d Y h i a', $start);
+                    $end = implode(' ', $value);
+                    $end = \DateTime::createFromFormat('m d Y h i a', $end);
+                    if ($end > $start) {
+                        return true;
+                    }
+                    return false;
+                },
+                    'message' => 'End date and time must be later than start date and time.'
+            ])
             ->add('end', 'valid', ['rule' => 'datetime'])
             ->notEmpty('end');
 
