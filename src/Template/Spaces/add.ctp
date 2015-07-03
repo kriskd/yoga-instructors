@@ -1,32 +1,44 @@
-<div class="actions columns large-2 medium-3">
-    <h3><?= __('Actions') ?></h3>
-    <ul class="side-nav">
-        <li><?= $this->Html->link(__('List Spaces'), ['action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('List Studios'), ['controller' => 'Studios', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Studio'), ['controller' => 'Studios', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Sessions'), ['controller' => 'Sessions', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Session'), ['controller' => 'Sessions', 'action' => 'add']) ?></li>
-    </ul>
-</div>
 <div class="spaces form large-10 medium-9 columns">
     <?= $this->Form->create($space) ?>
     <?php $this->Form->templates([
         'input' => '<input class="form-control" type={{type}} name={{name}} {{attrs}} >',
+        'nestingLabel' => '<label class="push-down"{{attrs}}>{{input}}{{text}}</label>',
         'textarea' => '<textarea class="form-control {{attrs}}>{{value}}</textarea>',
         'select' => '<select class="form-control" name={{name}} {{attrs}}>{{content}}</select>',
+        'dateWidget' => '<div class="row"><div class="col-sm-2 col-xs-12">{{month}}</div><div class="col-sm-2 col-xs-12">{{day}}</div><div class="col-sm-2 col-xs-12">{{year}}</div><div class="col-sm-2 col-xs-12">{{hour}}</div><div class="col-sm-2 col-xs-12">{{minute}}</div><div class="col-sm-2 col-xs-12">{{meridian}}</div><div class="col-sm-2 col-xs-12"></div></div>',
     ]); ?>
     <fieldset>
         <legend><?= __('Add Space') ?></legend>
-        <?php
-            echo $this->Form->input('hot_room');
-            echo $this->Form->input('max_participants');
-            echo $this->Form->input('cost');
-            echo $this->Form->input('donation');
-            echo $this->Form->input('description');
-            echo $this->Form->input('start');
-            echo $this->Form->input('end');
-        ?>
+        <div class="row">
+            <div class="col-sm-6 col-xs-12">
+                <?= $this->Form->input('max_participants'); ?>
+            </div>
+            <div class="col-sm-6 col-xs-12">
+                <?= $this->Form->input('hot_room'); ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 col-xs-12">
+                <?= $this->Form->input('cost'); ?>
+            </div>
+            <div class="col-sm-6 col-xs-12">
+                <?= $this->Form->input('donation'); ?>
+            </div>
+        </div>
+                <?= $this->Form->input('description'); ?>
+                <?= $this->Form->input('start', [
+                    'minYear' => date('Y'),
+                    'maxYear' => date('Y')+1,
+                    'interval' => 15,
+                    'timeFormat' => 12,
+                ]); ?>
+                <?= $this->Form->input('end', [
+                    'minYear' => date('Y'),
+                    'maxYear' => date('Y')+1,
+                    'interval' => 15,
+                    'timeFormat' => 12,
+                ]); ?>
     </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
+    <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-default']) ?>
     <?= $this->Form->end() ?>
 </div>
