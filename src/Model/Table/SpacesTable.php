@@ -46,33 +46,33 @@ class SpacesTable extends Table
         $validator
             ->add('id', 'valid', ['rule' => 'numeric'])
             ->allowEmpty('id', 'create');
-            
+
         $validator
             ->add('hot_room', 'valid', ['rule' => 'boolean'])
             ->allowEmpty('hot_room');
-            
+
         $validator
             ->add('max_participants', 'valid', ['rule' => 'numeric'])
             ->allowEmpty('max_participants');
-            
+
         $validator
             ->add('cost', 'valid', ['rule' => 'decimal'])
             ->allowEmpty('cost');
-            
+
         $validator
             ->add('donation', 'valid', ['rule' => 'boolean'])
             ->allowEmpty('donation');
-            
+
         $validator
             ->allowEmpty('description');
-            
+
         $validator
             ->add('start', 'valid', ['rule' => 'datetime'])
-            ->allowEmpty('start');
-            
+            ->notEmpty('start');
+
         $validator
             ->add('end', 'valid', ['rule' => 'datetime'])
-            ->allowEmpty('end');
+            ->notEmpty('end');
 
         return $validator;
     }
