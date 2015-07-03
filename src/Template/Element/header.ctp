@@ -9,7 +9,7 @@
                     'data-target' => '#navbar',
                     'aria-expanded' => 'false',
                 ]); ?>
-                <?php echo $this->Html->link('Yoga', '#', [
+                <?php echo $this->Html->link('Yoga', '/', [
                     'class' => 'navbar-brand'
                 ]); ?>
             </div>
