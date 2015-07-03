@@ -26,6 +26,7 @@
                                 'escape' => false,
                             ]); ?>
                             <ul class="dropdown-menu">
+                                <?= $this->Element('Menu/'.$authUser['type']); ?>
                                 <li>
                                     <?= $this->Html->link('Edit Profile', [
                                         'controller' => 'Users',
