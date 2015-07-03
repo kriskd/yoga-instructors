@@ -6706,10 +6706,31 @@ button[type=submit] {
   content: ' *';
   color: #C3232D;
 }
+.message.error {
+  background-color: #f2dede;
+  border-color: #ebccd1;
+  color: #a94442;
+  padding: 15px;
+  border-top-right-radius: 4px;
+  border-top-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+.message.error hr {
+  border-top-color: #e4b9c0;
+}
+.message.error .alert-link {
+  color: #843534;
+}
 header .navbar {
   border-radius: 0;
   margin-bottom: 0;
 }
 header .navbar button[type=submit] {
   margin-top: 0;
+}
+@media (min-width: 768px) {
+  .push-down {
+    margin-top: 20px;
+  }
 }
