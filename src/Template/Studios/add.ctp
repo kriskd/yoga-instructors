@@ -7,17 +7,21 @@
     <fieldset>
         <legend><?= __('Add Studio') ?></legend>
         <?php
-            echo $this->Form->input('name');
+            echo $this->Form->input('name', ['label' => 'Studio Name']);
             echo $this->Form->input('address');
-            echo $this->Form->input('city');
-            echo $this->Form->input('state_id', ['options' => $states, 'empty' => 'Choose One', 'default' => 'WI']);
-            echo $this->Form->input('postal_code');
-            echo $this->Form->input('contact');
-            echo $this->Form->input('user.email');
-            echo $this->Form->input('user.password');
-            echo $this->Form->input('user.password_confirm', ['type' => 'password']);
-            echo $this->Form->input('user.phone');
         ?>
+        <div class="row">
+            <div class="col-sm-6 col-xs-12">
+                <?= $this->Form->input('city'); ?>
+            </div>
+            <div class="col-sm-2 col-xs-12">
+                <?= $this->Form->input('state_id', ['options' => $states, 'empty' => 'Choose One', 'default' => 'WI']); ?>
+            </div>
+            <div class="col-sm-4 col-xs-12">
+                <?= $this->Form->input('postal_code'); ?>
+            </div>
+        </div>
+        <?php echo $this->Element('Form/user'); ?>
     </fieldset>
     <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-default']) ?>
     <?= $this->Form->end() ?>

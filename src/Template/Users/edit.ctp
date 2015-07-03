@@ -30,7 +30,12 @@
     <fieldset>
         <legend><?= __('Edit') ?> <?php echo ucfirst($user->type); ?></legend>
         <?php echo $this->Element('Form/'.$user->type); ?>
-        <?php echo $this->Element('Form/user'); ?>
+        <?php
+            echo $this->Form->input('email');
+            echo $this->Form->input('password', ['value' => '']);
+            echo $this->Form->input('password_confirm', ['type' => 'password']);
+            echo $this->Form->input('phone');
+        ?>
     </fieldset>
     <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-default']) ?>
     <?= $this->Form->end() ?>

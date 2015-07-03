@@ -6696,8 +6696,8 @@ button.close {
     display: none !important;
   }
 }
-.navbar {
-  border-radius: 0;
+button[type=submit] {
+  margin-top: 10px;
 }
 .required > label {
   font-weight: bold;
@@ -6706,6 +6706,10 @@ button.close {
   content: ' *';
   color: #C3232D;
 }
-/*button[type=submit] {
-    margin-top: 10px;
-}*/
+header .navbar {
+  border-radius: 0;
+  margin-bottom: 0;
+}
+header .navbar button[type=submit] {
+  margin-top: 0;
+}

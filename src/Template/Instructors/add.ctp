@@ -6,15 +6,16 @@
     ]); ?>
     <fieldset>
         <legend><?= __('Add Instructor') ?></legend>
-        <?php
-            echo $this->Form->input('first_name');
-            echo $this->Form->input('last_name');
-            echo $this->Form->input('bio');
-            echo $this->Form->input('user.email');
-            echo $this->Form->input('user.password');
-            echo $this->Form->input('user.password_confirm', ['type' => 'password']);
-            echo $this->Form->input('user.phone');
-        ?>
+        <div class="row">
+            <div class="col-sm-6 col-xs-12">
+                <?= $this->Form->input('first_name'); ?>
+            </div>
+            <div class="col-sm-6 col-xs-12">
+                <?= $this->Form->input('last_name'); ?>
+            </div>
+        </div>
+        <?= $this->Form->input('bio'); ?>
+        <?= $this->Element('Form/user'); ?>
     </fieldset>
     <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-default']) ?>
     <?= $this->Form->end() ?>
