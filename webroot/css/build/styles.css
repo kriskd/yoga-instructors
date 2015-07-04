@@ -6743,3 +6743,7 @@ header .navbar button[type=submit] {
     margin-top: 20px;
   }
 }
+dl dt {
+  float: left;
+  width: 150px;
+}
