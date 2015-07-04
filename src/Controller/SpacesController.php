@@ -76,11 +76,19 @@ class SpacesController extends AppController
      * @return void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-    public function edit($id = null)
-    {
-        $space = $this->Spaces->get($id, [
-            'contain' => []
-        ]);
+    public function edit($id = null) {
+        try {
+            $space = $this->Spaces->get($id, [
+                'contain' => [
+                    'Studios'
+                ],
+                'conditions' => [
+                    'Studios.user_id' => $this->Auth->user('id'),
+                ],
+            ]);
+        } catch (\Cake\Datasource\Exception\RecordNotFoundException $e) {
+            $this->redirect(['action' => 'index']);
+        }
         if ($this->request->is(['patch', 'post', 'put'])) {
             $space = $this->Spaces->patchEntity($space, $this->request->data);
             if ($this->Spaces->save($space)) {
