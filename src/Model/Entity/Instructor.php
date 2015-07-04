@@ -22,4 +22,8 @@ class Instructor extends Entity
         'user' => true,
         'participants' => true,
     ];
+
+    protected function _getFullName() {
+        return $this->_properties['first_name'] . '  ' . $this->_properties['last_name'];
+    }
 }
