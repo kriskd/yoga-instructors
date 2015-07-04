@@ -40,20 +40,27 @@ class SpacesController extends AppController
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
     public function view($id = null) {
-        $space = $this->Spaces->get($id, [
-            'contain' => [
-                'Studios',
-                'Sessions' => [
-                    'Styles',
-                    'Participants' => [
-                        'conditions' => [
-                            'role_id' => 1,
-                        ],
-                        'Instructors',
+        try {
+            $conditions = ['Spaces.start >' => new \DateTime];
+            $conditions[] = $this->Auth->user('type') == 'studio' ? ['Studios.user_id' => $this->Auth->user('id')] : $conditions;
+            $space = $this->Spaces->get($id, [
+                'contain' => [
+                    'Studios',
+                    'Sessions' => [
+                        'Styles',
+                        'Participants' => [
+                            'conditions' => [
+                                'role_id' => 1,
+                            ],
+                            'Instructors',
+                        ]
                     ]
-                ]
-            ]
-        ]);
+                ],
+                'conditions' => $conditions,
+            ]);
+        } catch (\Cake\Datasource\Exception\RecordNotFoundException $e) {
+            $this->redirect(['action' => 'index']);
+        }
         $this->set('space', $space);
         $this->set('_serialize', ['space']);
     }

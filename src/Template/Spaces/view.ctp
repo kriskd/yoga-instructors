@@ -19,50 +19,56 @@
                 <dt><?= __('Description') ?></dt>
                 <dd><?= $this->Text->autoParagraph(h($space->description)) ?></dd>
             </dl>
+            <?php if (empty($space->sessions) && $authUser['type'] == 'instructor'): ?>
+                <?php echo $this->Html->link('Book This Space', [
+                    'controller' => 'sessions',
+                    'action' => 'add', $space->id,
+                ]); ?>
+            <?php endif; ?>
         </div>
     </div>
 </div>
-<div class="related row">
-    <div class="column large-12">
-    <h4 class="subheader"><?= __('Booked Class') ?></h4>
-    <?php if (!empty($space->sessions)): ?>
-    <table class="table">
-        <tr>
-            <th><?= __('Start') ?></th>
-            <th><?= __('End') ?></th>
-            <th><?= __('Instructor') ?></th>
-            <th><?= __('Style') ?></th>
-            <th><?= __('Min Students') ?></th>
-            <th><?= __('Cost') ?></th>
-            <th><?= __('Donation') ?></th>
-            <th class="actions"><?= __('Actions') ?></th>
-        </tr>
-        <?php foreach ($space->sessions as $sessions): ?>
-        <tr>
-            <td><?= h($sessions->start) ?></td>
-            <td><?= h($sessions->end) ?></td>
-            <td>
-                <?php foreach ($sessions->participants as $participants): ?>
-                    <?= h($participants->instructor->full_name) ?>
-                <?php endforeach; ?>
-            </td>
-            <td><?= h($sessions->style->name) ?></td>
-            <td><?= h($sessions->min_students) ?></td>
-            <td><?= h($sessions->cost) ?></td>
-            <td><?= h($sessions->donation) ?></td>
+<?php if (!empty($space->sessions)): ?>
+    <div class="related row">
+        <div class="column large-12">
+        <h4 class="subheader"><?= __('Booked Class') ?></h4>
+        <table class="table">
+            <tr>
+                <th><?= __('Start') ?></th>
+                <th><?= __('End') ?></th>
+                <th><?= __('Instructor') ?></th>
+                <th><?= __('Style') ?></th>
+                <th><?= __('Min Students') ?></th>
+                <th><?= __('Cost') ?></th>
+                <th><?= __('Donation') ?></th>
+                <th class="actions"><?= __('Actions') ?></th>
+            </tr>
+            <?php foreach ($space->sessions as $sessions): ?>
+            <tr>
+                <td><?= h($sessions->start) ?></td>
+                <td><?= h($sessions->end) ?></td>
+                <td>
+                    <?php foreach ($sessions->participants as $participants): ?>
+                        <?= h($participants->instructor->full_name) ?>
+                    <?php endforeach; ?>
+                </td>
+                <td><?= h($sessions->style->name) ?></td>
+                <td><?= h($sessions->min_students) ?></td>
+                <td><?= h($sessions->cost) ?></td>
+                <td><?= h($sessions->donation) ?></td>
 
-            <td class="actions">
-                <?= $this->Html->link(__('View'), ['controller' => 'Sessions', 'action' => 'view', $sessions->id]) ?>
+                <td class="actions">
+                    <?= $this->Html->link(__('View'), ['controller' => 'Sessions', 'action' => 'view', $sessions->id]) ?>
 
-                <?= $this->Html->link(__('Edit'), ['controller' => 'Sessions', 'action' => 'edit', $sessions->id]) ?>
+                    <?= $this->Html->link(__('Edit'), ['controller' => 'Sessions', 'action' => 'edit', $sessions->id]) ?>
 
-                <?= $this->Form->postLink(__('Delete'), ['controller' => 'Sessions', 'action' => 'delete', $sessions->id], ['confirm' => __('Are you sure you want to delete # {0}?', $sessions->id)]) ?>
+                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'Sessions', 'action' => 'delete', $sessions->id], ['confirm' => __('Are you sure you want to delete # {0}?', $sessions->id)]) ?>
 
-            </td>
-        </tr>
+                </td>
+            </tr>
 
-        <?php endforeach; ?>
-    </table>
-    <?php endif; ?>
+            <?php endforeach; ?>
+        </table>
+        </div>
     </div>
-</div>
+<?php endif; ?>

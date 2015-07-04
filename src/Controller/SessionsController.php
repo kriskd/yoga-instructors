@@ -46,10 +46,23 @@ class SessionsController extends AppController
      *
      * @return void Redirects on successful add, renders view otherwise.
      */
-    public function add() {
+    public function add($space_id = null) {
+        if (empty($space_id)) {
+            $this->redirect(['action' => 'index']);
+        }
+        // TODO: Make sure space is available
+        // TODO: Validation session start and end again space start and end
+        $space = $this->Sessions->Spaces->get($space_id, [
+            'contain' => [
+                'Studios'
+            ],
+        ]);
+        $this->request->data['start'] = $space->start;
+        $this->request->data['end'] = $space->end;
         $instructor = $this->Sessions->Participants->Instructors->findByUserId($this->Auth->User('id'))->first();
         if (!$instructor) $this->redirect('/');
         $session = $this->Sessions->newEntity();
+        $session->space_id = $space_id;
         if ($this->request->is('post')) {
             $this->request->data['participants'][0]['instructor_id'] = $instructor->id;
             $this->request->data['participants'][0]['role_id'] = 1;
