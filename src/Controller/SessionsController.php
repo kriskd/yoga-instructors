@@ -60,8 +60,6 @@ class SessionsController extends AppController
         if (!empty($space->sessions)) {
             return $this->redirect(['controller' => 'spaces', 'action' => 'index']);
         }
-        $this->request->data['start'] = $space->start;
-        $this->request->data['end'] = $space->end;
         $instructor = $this->Sessions->Participants->Instructors->findByUserId($this->Auth->User('id'))->first();
         if (!$instructor) $this->redirect('/');
         $session = $this->Sessions->newEntity();
@@ -76,6 +74,9 @@ class SessionsController extends AppController
             } else {
                 $this->Flash->error(__('The session could not be saved. Please, try again.'));
             }
+        } else {
+            $this->request->data['start'] = $space->start;
+            $this->request->data['end'] = $space->end;
         }
         $styles = $this->Sessions->Styles->find('list', ['limit' => 200]);
         $this->set(compact('session', 'space', 'styles'));
