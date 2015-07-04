@@ -74,9 +74,8 @@ class SessionsController extends AppController
                 $this->Flash->error(__('The session could not be saved. Please, try again.'));
             }
         }
-        $spaces = $this->Sessions->Spaces->find('list', ['limit' => 200]);
         $styles = $this->Sessions->Styles->find('list', ['limit' => 200]);
-        $this->set(compact('session', 'spaces', 'styles'));
+        $this->set(compact('session', 'space', 'styles'));
         $this->set('_serialize', ['session']);
     }
 
