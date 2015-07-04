@@ -8,6 +8,7 @@
         <legend><?= __('Add Studio') ?></legend>
         <?php
             echo $this->Form->input('name', ['label' => 'Studio Name']);
+            echo $this->Form->input('contact', ['label' => 'Contact Name']);
             echo $this->Form->input('address');
         ?>
         <div class="row">
