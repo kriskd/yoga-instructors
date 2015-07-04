@@ -16,10 +16,17 @@ class SpacesController extends AppController
      *
      * @return void
      */
-    public function index()
-    {
+    public function index() {
+        $conditions = ['Spaces.start >' => new \DateTime];
+        $conditions[] = $this->Auth->user('type') == 'studio' ? ['Studios.user_id' => $this->Auth->user('id')] : $conditions;
         $this->paginate = [
-            'contain' => ['Studios']
+            'contain' => [
+                'Studios'
+            ],
+            'conditions' => $conditions,
+            'order' => [
+                'Spaces.start' => 'ASC',
+            ]
         ];
         $this->set('spaces', $this->paginate($this->Spaces));
         $this->set('_serialize', ['spaces']);
@@ -32,10 +39,20 @@ class SpacesController extends AppController
      * @return void
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-    public function view($id = null)
-    {
+    public function view($id = null) {
         $space = $this->Spaces->get($id, [
-            'contain' => ['Studios', 'Sessions']
+            'contain' => [
+                'Studios',
+                'Sessions' => [
+                    'Styles',
+                    'Participants' => [
+                        'conditions' => [
+                            'role_id' => 1,
+                        ],
+                        'Instructors',
+                    ]
+                ]
+            ]
         ]);
         $this->set('space', $space);
         $this->set('_serialize', ['space']);

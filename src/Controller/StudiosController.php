@@ -40,12 +40,18 @@ class StudiosController extends AppController
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
     public function view() {
-        $id = $this->Auth->user('id');
+        $conditions[] = $this->Auth->user('type') == 'studio' ? ['Studios.user_id' => $this->Auth->user('id')] : [];
         $studio = $this->Studios->find('all', [
-            'conditions' => [
-                'user_id' => $id,
-            ],
-            'contain' => ['Users', 'States', 'Spaces']
+            'conditions' => $conditions,
+            'contain' => [
+                'Users', 
+                'States', 
+                'Spaces' => [
+                    'conditions' => [
+                        'start >' => new \DateTime,
+                    ]
+                ]
+            ]
         ])->first();
         if (!$studio) $this->redirect('/');
         $this->set('studio', $studio);
