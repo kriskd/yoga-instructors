@@ -48,15 +48,18 @@ class SessionsController extends AppController
      */
     public function add($space_id = null) {
         if (empty($space_id)) {
-            $this->redirect(['action' => 'index']);
+            return $this->redirect(['action' => 'index']);
         }
-        // TODO: Make sure space is available
         // TODO: Validation session start and end again space start and end
         $space = $this->Sessions->Spaces->get($space_id, [
             'contain' => [
-                'Studios'
+                'Studios',
+                'Sessions'
             ],
         ]);
+        if (!empty($space->sessions)) {
+            return $this->redirect(['controller' => 'spaces', 'action' => 'index']);
+        }
         $this->request->data['start'] = $space->start;
         $this->request->data['end'] = $space->end;
         $instructor = $this->Sessions->Participants->Instructors->findByUserId($this->Auth->User('id'))->first();
