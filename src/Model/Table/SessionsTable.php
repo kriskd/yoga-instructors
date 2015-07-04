@@ -52,27 +52,36 @@ class SessionsTable extends Table
         $validator
             ->add('id', 'valid', ['rule' => 'numeric'])
             ->allowEmpty('id', 'create');
-            
+
         $validator
             ->add('min_students', 'valid', ['rule' => 'numeric'])
             ->allowEmpty('min_students');
-            
+
         $validator
             ->add('cost', 'valid', ['rule' => 'decimal'])
             ->allowEmpty('cost');
-            
+
         $validator
             ->add('donation', 'valid', ['rule' => 'boolean'])
             ->allowEmpty('donation');
-            
+
         $validator
             ->allowEmpty('description');
-            
+
         $validator
             ->add('start', 'valid', ['rule' => 'datetime'])
             ->requirePresence('start', 'create')
+            /*->add('end', 'custom', [
+                'rule' => function ($value, $context) {
+                    debug($context); exit;
+                    $spaceStart = $context['data']['spaces']['start'];
+                    $spaceEnd = $context['data']['spaces']['end'];
+                    debug($spaceStart);
+                    debug($spaceEnd); exit;
+                },
+                ])*/
             ->notEmpty('start');
-            
+
         $validator
             ->add('end', 'valid', ['rule' => 'datetime'])
             ->requirePresence('end', 'create')
@@ -92,6 +101,18 @@ class SessionsTable extends Table
     {
         $rules->add($rules->existsIn(['space_id'], 'Spaces'));
         $rules->add($rules->existsIn(['style_id'], 'Styles'));
+
+        $check = function ($session) {
+            $space_id = $session->space_id;
+            $space = $this->Spaces->get($space_id);
+            return $session->start >= $space->start ? true : false;
+        };
+        $rules->add($check, [
+            'errorField' => 'start',
+            //'message' => 'Session must start on '.date_format($space->start, 'M j, Y g:i a'),
+            'message' => 'Session must start later than Space start',
+        ]);
+
         return $rules;
     }
 }
