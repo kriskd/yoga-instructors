@@ -8,6 +8,10 @@
     ]); ?>
     <fieldset>
         <legend><?= __('Add Session') ?></legend>
+        <dl>
+            <dt>Studio</dt>
+            <dd><?= $space->studio->name; ?></dd>
+        </dl>
         <?php
             echo $this->Form->input('style_id', ['options' => $styles]);
             echo $this->Form->input('min_students');
