@@ -48,7 +48,7 @@ class SessionsController extends AppController
      */
     public function add($space_id = null) {
         if (empty($space_id)) {
-            return $this->redirect(['action' => 'index']);
+            return $this->redirect(['controller' => 'spaces', 'action' => 'index']);
         }
         // TODO: Validation session start and end again space start and end
         $space = $this->Sessions->Spaces->get($space_id, [
