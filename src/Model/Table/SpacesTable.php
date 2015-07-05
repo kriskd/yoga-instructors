@@ -30,7 +30,7 @@ class SpacesTable extends Table
         $this->belongsTo('Studios', [
             'foreignKey' => 'studio_id'
         ]);
-        $this->hasMany('Sessions', [
+        $this->hasOne('Sessions', [
             'foreignKey' => 'space_id'
         ]);
     }
