@@ -5,6 +5,7 @@ use App\Controller\AppController;
 use Cake\ORM\TableRegistry;
 use Cake\Event\Event;
 use Cake\Utility\Text;
+use Cake\Utility\Inflector;
 
 /**
  * Users Controller
@@ -58,10 +59,9 @@ class UsersController extends AppController
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
     public function view() {
-        $id = $this->Auth->user('id');
-        $user = $this->Users->get($id, [
-            'contain' => ['Instructors', 'Studios']
-        ]);
+        $user_id = $this->Auth->user('id');
+        $type = ucfirst(Inflector::pluralize($this->Auth->user('type')));
+        $user = $this->Users->{$type}->getUser($user_id);
         if (empty($user)) {
             $this->redirect([
                 'controller' => 'Pages',
@@ -80,10 +80,11 @@ class UsersController extends AppController
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
     public function edit() {
-        $id = $this->Auth->user('id');
-        $user = $this->Users->get($id, [
-            'contain' => ['Instructors', 'Studios']
-        ]);
+        $user_id = $this->Auth->user('id');
+        $type = $this->Auth->user('type');
+        $type = ucfirst(Inflector::pluralize($this->Auth->user('type')));
+        $user = $this->Users->{$type}->getUser($user_id);
+        unset($user->password); // Do this in a formatResults method
         if ($this->request->is(['patch', 'post', 'put'])) {
             if (empty(trim($this->request->data['password']))) {
                 unset($this->request->data['password']);
