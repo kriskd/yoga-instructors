@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\ORM\TableRegistry;
 
 /**
  * Participants Controller
@@ -61,8 +62,16 @@ class ParticipantsController extends AppController
                 $this->Flash->error(__('The participant could not be saved. Please, try again.'));
             }
         }
-        $sessions = $this->Participants->Sessions->find('list', ['limit' => 200]);
-        $this->set(compact('participant', 'sessions', 'instructors', 'roles'));
+        $sessionsTable = TableRegistry::get('Sessions');
+        $sessions = $sessionsTable->find('future')->contain([
+            'Participants.Instructors' => function ($q) {
+                return $q->where(['Participants.role_id' => 1]);
+            },
+            'Spaces' => [
+                'Studios',
+            ],
+        ])->all();
+        $this->set(compact('participant', 'sessions'));
         $this->set('_serialize', ['participant']);
     }
 
