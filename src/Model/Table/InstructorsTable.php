@@ -98,9 +98,20 @@ class InstructorsTable extends Table
         return $this->Users->get($user_id, [
             'contain' => [
                 'Instructors' => [
-                    'Participants'
-                ]
+                    'Participants' => [
+                        'Roles',
+                        'Sessions' => [
+                            'Spaces' => [
+                                'Studios',
+                            ],
+                        ],
+                    ],
+                ],
             ],
+            /*'order' => [
+                'Participants.role_id',
+                'Sessions.start',
+            ]*/
         ]);
     }
 }

@@ -117,8 +117,15 @@ class StudiosTable extends Table
         return $this->Users->get($user_id, [
             'contain' => [
                 'Studios' => [
-                    'Spaces'
-                ]
+                    'Spaces' => [
+                        'Sessions' => [
+                            'Participants' => [
+                                'Roles',
+                                'Instructors',
+                            ],
+                        ],
+                    ],
+                ],
             ],
         ]);
     }
