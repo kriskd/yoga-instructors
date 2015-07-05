@@ -12,7 +12,7 @@
             </tr>
             <?php foreach ($sessions as $session): ?>
                 <tr>
-                    <td><?= $this->Form->input('session_id', ['type' => 'checkbox', 'label' => false]); ?></td>
+                    <td><?= $this->Form->input('session.'.$session->id.'.id', ['type' => 'checkbox', 'label' => false, 'hiddenField' => false]); ?></td>
                     <td><?= h($session->start) ?></td>
                     <td><?= h($session->end) ?></td>
                     <td><?= h($session->space->studio->name) ?></td>
