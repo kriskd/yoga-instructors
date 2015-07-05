@@ -100,7 +100,7 @@ class StudiosTable extends Table
         $rules->add($rules->existsIn(['state_id'], 'States'));
         return $rules;
     }
- 
+
     public function getName($userid) {
         $instructor = $this->find('all', [
             'contain' => ['Users'],
@@ -111,5 +111,15 @@ class StudiosTable extends Table
         ])->first();
 
         return $instructor->name;
+    }
+
+    public function getUser($user_id) {
+        return $this->Users->get($user_id, [
+            'contain' => [
+                'Studios' => [
+                    'Spaces'
+                ]
+            ],
+        ]);
     }
 }

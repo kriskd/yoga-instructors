@@ -93,4 +93,14 @@ class InstructorsTable extends Table
 
         return $instructor->first_name;
     }
+
+    public function getUser($user_id) {
+        return $this->Users->get($user_id, [
+            'contain' => [
+                'Instructors' => [
+                    'Participants'
+                ]
+            ],
+        ]);
+    }
 }
