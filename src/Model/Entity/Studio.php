@@ -26,4 +26,8 @@ class Studio extends Entity
         'state' => true,
         'spaces' => true,
     ];
+
+    protected function _getCityStZip() {
+        return $this->_properties['city'] . ',  ' . $this->_properties['state_id'] . ' ' . $this->_properties['postal_code'];
+    }
 }
