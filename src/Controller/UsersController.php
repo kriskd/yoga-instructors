@@ -2,7 +2,6 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
-use Cake\ORM\TableRegistry;
 use Cake\Event\Event;
 use Cake\Utility\Text;
 use Cake\Utility\Inflector;
