@@ -115,4 +115,14 @@ class SessionsTable extends Table
 
         return $rules;
     }
+
+    /**
+     * `start` is in the future
+     */
+    public function findFuture(Query $query, array $options) {
+        $query->where([
+            'Sessions.start >' =>  new \DateTime,
+        ]);
+        return $query;
+    }
 }

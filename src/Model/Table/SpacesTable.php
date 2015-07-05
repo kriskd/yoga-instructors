@@ -102,4 +102,18 @@ class SpacesTable extends Table
         $rules->add($rules->existsIn(['studio_id'], 'Studios'));
         return $rules;
     }
+
+    /**
+     * `start` is in the future
+     */
+    public function findFuture(Query $query, array $options) {
+
+    }
+
+    /**
+     * There are no associated Participants
+     */
+    public function findAvailable(Query $query, array $options) {
+
+    }
 }
