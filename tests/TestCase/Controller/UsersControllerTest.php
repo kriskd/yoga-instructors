@@ -34,6 +34,7 @@ class UsersControllerTest extends IntegrationTestCase
                 'User' => [
                     'id' => 1,
                     'email' => 'AnnaBJames@teleworm.us',
+                    'type' => 'instructor',
                 ]
             ]
         ];
