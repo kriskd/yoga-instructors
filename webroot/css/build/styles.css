@@ -6747,3 +6747,9 @@ dl dt {
   float: left;
   width: 150px;
 }
+table .checkbox {
+  margin-top: 0;
+}
+table .checkbox input[type=checkbox] {
+  margin-left: 0;
+}
