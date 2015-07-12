@@ -107,13 +107,28 @@ class SpacesTable extends Table
      * `start` is in the future
      */
     public function findFuture(Query $query, array $options) {
-
+        $query->where([
+            'Spaces.end >' => new \DateTime,
+        ]);
+        return $query;
     }
 
     /**
-     * There are no associated Participants
+     * There are no associated Spaces
      */
     public function findAvailable(Query $query, array $options) {
+        $query->leftJoin(
+                ['Sessions' => 'sessions'],
+                ['Sessions.space_id = Spaces.id']
+            );
+        $query->where(['Sessions.id IS' => null]);
 
+        return $query;
+    }
+
+    public function findMine(Query $query, array $options) {
+        $query->where(['Studios.user_id' => $options['userid']]);
+
+        return $query;
     }
 }

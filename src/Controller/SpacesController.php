@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\ORM\TableRegistry;
 
 /**
  * Spaces Controller
@@ -17,18 +18,18 @@ class SpacesController extends AppController
      * @return void
      */
     public function index() {
-        $conditions = ['Spaces.start >' => new \DateTime];
-        $conditions[] = $this->Auth->user('type') == 'studio' ? ['Studios.user_id' => $this->Auth->user('id')] : $conditions;
-        $this->paginate = [
-            'contain' => [
-                'Studios'
-            ],
-            'conditions' => $conditions,
-            'order' => [
-                'Spaces.start' => 'ASC',
-            ]
-        ];
-        $this->set('spaces', $this->paginate($this->Spaces));
+        $spacesTable = TableRegistry::get('Spaces');
+        $query = $spacesTable->find('future')->contain([
+            'Studios'
+        ])->order(['Spaces.start' => 'ASC']);
+
+        if ($this->Auth->user('type') == 'studio') {
+            $query->where(['Studios.user_id' => $this->Auth->user('id')]);
+        } else {
+            $query->find('available');
+        }
+
+        $this->set('spaces', $this->paginate($query));
         $this->set('_serialize', ['spaces']);
     }
 
