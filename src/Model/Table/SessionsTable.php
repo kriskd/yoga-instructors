@@ -121,8 +121,23 @@ class SessionsTable extends Table
      */
     public function findFuture(Query $query, array $options) {
         $query->where([
-            'Sessions.start >' =>  new \DateTime,
+            'Sessions.start >' => new \DateTime,
         ]);
+        return $query;
+    }
+
+    public function findTeachers(Query $query, array $options) {
+        $query->contain([
+            'Participants.Instructors' => function ($q) {
+                return $q->where([
+                    'Participants.role_id' => 1,
+                ]);
+            },
+            'Spaces' => [
+                'Studios',
+            ],
+        ]);
+
         return $query;
     }
 }

@@ -63,14 +63,18 @@ class ParticipantsController extends AppController
             }
         }
         $sessionsTable = TableRegistry::get('Sessions');
-        $sessions = $sessionsTable->find('future')->contain([
-            'Participants.Instructors' => function ($q) {
-                return $q->where(['Participants.role_id' => 1]);
-            },
-            'Spaces' => [
-                'Studios',
-            ],
-        ])->all();
+        $query = $sessionsTable->find('future')->find('teachers')
+            ->leftJoin(
+                ['Participants' => 'participants'],
+                [
+                    'Participants.session_id = Sessions.id',
+                    'Participants.instructor_id' => $instructor->id,
+                ]
+            );
+        $query->where([
+            'Participants.instructor_id IS' => null
+        ]);
+        $sessions = $query->all();
         $this->set(compact('participant', 'sessions'));
         $this->set('_serialize', ['participant']);
     }
