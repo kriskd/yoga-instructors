@@ -70,10 +70,10 @@ class ParticipantsController extends AppController
                     'Participants.session_id = Sessions.id',
                     'Participants.instructor_id' => $instructor->id,
                 ]
-            );
-        $query->where([
-            'Participants.instructor_id IS' => null
-        ]);
+            )
+            ->where([
+                'Participants.instructor_id IS' => null
+            ]);
         $sessions = $query->all();
         $this->set(compact('participant', 'sessions'));
         $this->set('_serialize', ['participant']);
