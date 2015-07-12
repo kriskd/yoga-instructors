@@ -71,4 +71,13 @@ class ParticipantsTable extends Table
         $rules->add($rules->existsIn(['role_id'], 'Roles'));
         return $rules;
     }
+
+    /**
+     * All session_ids for which instructor is either a Teacher or a Student
+     */
+    public function findInstructorSessionIds(Query $query, array $options) {
+        return $query->select(['session_id'])
+            ->distinct()
+            ->where(['instructor_id' => $options['instructor_id']]);
+    }
 }
