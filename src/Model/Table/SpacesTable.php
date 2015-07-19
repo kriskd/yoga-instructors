@@ -114,7 +114,7 @@ class SpacesTable extends Table
     }
 
     /**
-     * There are no associated Spaces
+     * There are no associated Sessions 
      */
     public function findAvailable(Query $query, array $options) {
         $query->leftJoin(
@@ -126,8 +126,52 @@ class SpacesTable extends Table
         return $query;
     }
 
+    /**
+     * Space belongs to a Studio
+     */
     public function findMine(Query $query, array $options) {
-        $query->where(['Studios.user_id' => $options['userid']]);
+        $query->contain(['Studios'])->where(['Studios.user_id' => $options['userid']]);
+
+        return $query;
+    }
+
+    /**
+     * Includes Sessions with Styles and Participants associated with a space
+     */
+    public function findSessions(Query $query, array $options) {
+        return $query->contain([
+            'Sessions' => [
+                'Styles',
+                'Participants' => [
+                    'conditions' => [
+                        'role_id' => 1,
+                    ],
+                    'Instructors',
+                ]
+            ]
+        ]);
+    }
+
+    public function findInstructor(Query $query, array $options) {
+
+    }
+
+    /**
+     * Get Spaces with associated Session
+     */
+    public function findBooked(Query $query, array $options) {
+        $query->contain([
+            'Studios',
+            'Sessions' => [
+                'Styles',
+                'Participants' => [
+                    'conditions' => [
+                        'role_id' => 1,
+                    ],
+                    'Instructors',
+                ]
+            ]
+        ]);
 
         return $query;
     }

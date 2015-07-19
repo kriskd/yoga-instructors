@@ -19,7 +19,7 @@
                 <dt><?= __('Description') ?></dt>
                 <dd><?= $this->Text->autoParagraph(h($space->description)) ?></dd>
             </dl>
-            <?php if (empty($space->sessions) && $authUser['type'] == 'instructor'): ?>
+            <?php if (empty($space->session) && $authUser['type'] == 'instructor'): ?>
                 <?php echo $this->Html->link('Book This Space', [
                     'controller' => 'sessions',
                     'action' => 'add', $space->id,
@@ -28,7 +28,7 @@
         </div>
     </div>
 </div>
-<?php if (!empty($space->sessions)): ?>
+<?php if (!empty($space->session)): ?>
     <div class="related row">
         <div class="column large-12">
         <h4 class="subheader"><?= __('Booked Class') ?></h4>
@@ -43,31 +43,29 @@
                 <th><?= __('Donation') ?></th>
                 <th class="actions"><?= __('Actions') ?></th>
             </tr>
-            <?php foreach ($space->sessions as $sessions): ?>
             <tr>
-                <td><?= h($sessions->start) ?></td>
-                <td><?= h($sessions->end) ?></td>
+                <td><?= h($space->session->start) ?></td>
+                <td><?= h($space->session->end) ?></td>
                 <td>
-                    <?php foreach ($sessions->participants as $participants): ?>
+                    <?php foreach ($space->session->participants as $participants): ?>
                         <?= h($participants->instructor->full_name) ?>
                     <?php endforeach; ?>
                 </td>
-                <td><?= h($sessions->style->name) ?></td>
-                <td><?= h($sessions->min_students) ?></td>
-                <td><?= h($sessions->cost) ?></td>
-                <td><?= h($sessions->donation) ?></td>
+                <td><?= h($space->session->style->name) ?></td>
+                <td><?= h($space->session->min_students) ?></td>
+                <td><?= h($space->session->cost) ?></td>
+                <td><?= h($space->session->donation) ?></td>
 
                 <td class="actions">
-                    <?= $this->Html->link(__('View'), ['controller' => 'Sessions', 'action' => 'view', $sessions->id]) ?>
+                    <?= $this->Html->link(__('View'), ['controller' => 'Sessions', 'action' => 'view', $space->session->id]) ?>
 
-                    <?= $this->Html->link(__('Edit'), ['controller' => 'Sessions', 'action' => 'edit', $sessions->id]) ?>
+                    <?= $this->Html->link(__('Edit'), ['controller' => 'Sessions', 'action' => 'edit', $space->session->id]) ?>
 
-                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'Sessions', 'action' => 'delete', $sessions->id], ['confirm' => __('Are you sure you want to delete # {0}?', $sessions->id)]) ?>
+                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'Sessions', 'action' => 'delete', $space->session->id], ['confirm' => __('Are you sure you want to delete # {0}?', $space->session->id)]) ?>
 
                 </td>
             </tr>
 
-            <?php endforeach; ?>
         </table>
         </div>
     </div>
