@@ -117,11 +117,11 @@ class SessionsTable extends Table
     }
 
     /**
-     * `start` is in the future
+     * `end` is in the future
      */
     public function findFuture(Query $query, array $options) {
         $query->where([
-            'Sessions.start >' => new \DateTime,
+            'Sessions.end >' => new \DateTime,
         ]);
         return $query;
     }
