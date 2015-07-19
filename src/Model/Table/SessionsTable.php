@@ -34,7 +34,7 @@ class SessionsTable extends Table
         ]);
         $this->belongsTo('Styles', [
             'foreignKey' => 'style_id',
-            'joinType' => 'INNER'
+            'joinType' => 'LEFT'
         ]);
         $this->hasMany('Participants', [
             'foreignKey' => 'session_id'
