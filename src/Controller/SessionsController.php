@@ -18,9 +18,17 @@ class SessionsController extends AppController
      */
     public function index()
     {
+        // Studio -- Find all sessions booked at my studio
+        // Instructor -- All sessions I'm teaching and available sessions I can sign up for
         $this->paginate = [
-            'contain' => ['Spaces', 'Styles']
+            'contain' => [
+                'Spaces' => [
+                    'Studios',
+                ],
+                'Styles',
+            ]
         ];
+
         $this->set('sessions', $this->paginate($this->Sessions));
         $this->set('_serialize', ['sessions']);
     }
@@ -93,8 +101,22 @@ class SessionsController extends AppController
     public function edit($id = null)
     {
         $session = $this->Sessions->get($id, [
-            'contain' => []
+            'contain' => [
+                'Spaces' => [
+                    'Studios',
+                ],
+                'Participants' => [
+                    'conditions' => [
+                        'role_id' => 1,
+                    ],
+                    'Instructors',
+                ]
+            ]
         ]);
+
+        if ($session->participants[0]->instructor->user_id != $this->Auth->user('id')) {
+            $this->redirect(['action' => 'index']);
+        }
         if ($this->request->is(['patch', 'post', 'put'])) {
             $session = $this->Sessions->patchEntity($session, $this->request->data);
             if ($this->Sessions->save($session)) {
